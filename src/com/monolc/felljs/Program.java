@@ -11,8 +11,6 @@ import com.monolc.felljs.res.Resources;
 
 public class Program extends WebSocketServer {
 	public ArrayList<Client> clients = new ArrayList<Client>();
-	public String[] users = { "Null", "Zyber17", "Guest" };
-	public String[] passwords = { "mnlc", "ilikepens", "" };
 
 	public Program() {
 		super(new InetSocketAddress(38734));
@@ -43,15 +41,7 @@ public class Program extends WebSocketServer {
 					}
 				}
 			}
-			boolean exists = false;
-			for (int i = 0; i < users.length && !exists; i++) {
-				if (Resources.isValidUser(user, pass)) {
-					exists = true;
-				}
-			}
-			if (!exists) {
-				conn.close(0);
-			} else {
+			if (Resources.isValidUser(user, pass)) {
 				synchronized (clients) {
 					for (Client c : clients) {
 						if (c.connection.equals(conn)) {
@@ -60,6 +50,8 @@ public class Program extends WebSocketServer {
 						}
 					}
 				}
+			} else {
+				conn.close(0);
 			}
 			return;
 		} else if (message.startsWith("add:")) {
