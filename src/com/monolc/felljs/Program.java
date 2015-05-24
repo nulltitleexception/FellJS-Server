@@ -51,7 +51,6 @@ public class Program extends WebSocketServer {
 
 	@Override
 	public void onError(WebSocket conn, Exception exc) {
-		// Handle error during transport here
 		System.out.println("Error: " + exc.getMessage());
 	}
 
