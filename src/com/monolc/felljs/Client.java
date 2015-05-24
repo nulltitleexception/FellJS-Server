@@ -11,6 +11,7 @@ public class Client {
 	public boolean validated = false;
 	public boolean guest = false;
 	public Rect2D box;
+	public String username = null;
 	boolean[] isKeyDown = new boolean[256];
 
 	public Client(WebSocket conn) {
@@ -93,7 +94,7 @@ public class Client {
 	}
 
 	public String getData() {
-		return (int) box.x + "," + (int) box.y;
+		return (int) box.x + "," + (int) box.y + "," + (username != null ? username : "ERROR");
 	}
 
 	public void sendData(ArrayList<Client> clients) {

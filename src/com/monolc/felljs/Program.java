@@ -36,6 +36,7 @@ public class Program extends WebSocketServer {
 						if (c.connection.equals(conn)) {
 							c.validated = true;
 							c.guest = true;
+							c.username = user;
 							return;
 						}
 					}
@@ -46,6 +47,7 @@ public class Program extends WebSocketServer {
 					for (Client c : clients) {
 						if (c.connection.equals(conn)) {
 							c.validated = true;
+							c.username = user;
 							return;
 						}
 					}
