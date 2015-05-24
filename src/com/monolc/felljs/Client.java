@@ -9,6 +9,7 @@ import com.monolc.felljs.physics.Rect2D;
 public class Client {
 	public WebSocket connection;
 	public boolean validated = false;
+	public boolean guest = false;
 	public Rect2D box;
 	boolean[] isKeyDown = new boolean[256];
 
