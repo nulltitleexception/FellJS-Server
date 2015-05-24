@@ -18,7 +18,6 @@ public class Program extends WebSocketServer {
 
 	@Override
 	public void onOpen(WebSocket conn, ClientHandshake handshake) {
-		System.out.println("Client Connected");
 		synchronized (clients) {
 			clients.add(new Client(conn));
 		}
@@ -37,6 +36,7 @@ public class Program extends WebSocketServer {
 							c.validated = true;
 							c.guest = true;
 							c.username = user;
+							System.out.println(user + " Connected");
 							return;
 						}
 					}
@@ -78,13 +78,12 @@ public class Program extends WebSocketServer {
 
 	@Override
 	public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-		System.out.print("Client Discon");
 		synchronized (clients) {
 			boolean cont = true;
 			for (int i = 0; i < clients.size() && cont; i++) {
 				if (clients.get(i).connection.equals(conn)) {
-					clients.remove(i);
-					System.out.println("nected");
+					System.out.println(clients.remove(i).username
+							+ " disconected");
 					cont = false;
 				}
 			}
