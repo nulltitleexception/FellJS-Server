@@ -9,6 +9,8 @@ import org.java_websocket.server.WebSocketServer;
 
 public class Program extends WebSocketServer {
 	public ArrayList<Client> clients = new ArrayList<Client>();
+	public String[] users = { "Null", "Zyber17", "Guest" };
+	public String[] passwords = { "mnlc", "c0rbs", "" };
 
 	public Program() {
 		super(new InetSocketAddress(38734));
@@ -24,6 +26,41 @@ public class Program extends WebSocketServer {
 
 	@Override
 	public void onMessage(WebSocket conn, String message) {
+		if (message.startsWith("login:")) {
+			//delete below here
+			/*synchronized (clients) {
+				for (Client c : clients) {
+					if (c.connection.equals(conn)) {
+						c.validated = true;
+						return;
+					}
+				}
+			}*/
+			//delete above here
+			String login = message.replace("login:", "");
+			String user = login.substring(0, login.indexOf(","));
+			String pass = login.substring(login.indexOf(",") + 1);
+			boolean exists = false;
+			for (int i = 0; i < users.length && !exists; i++) {
+				if (user.equalsIgnoreCase(users[i])
+						&& pass.equals(passwords[i])) {
+					exists = true;
+				}
+			}
+			if (!exists) {
+				conn.close(0);;
+			} else {
+				synchronized (clients) {
+					for (Client c : clients) {
+						if (c.connection.equals(conn)) {
+							c.validated = true;
+							return;
+						}
+					}
+				}
+			}
+			return;
+		}
 		synchronized (clients) {
 			for (Client c : clients) {
 				if (c.connection.equals(conn)) {
@@ -57,14 +94,18 @@ public class Program extends WebSocketServer {
 	public static void main(String[] args) {
 		Program server = new Program();
 		server.start();
+		long startTime = System.nanoTime();
+		long frameTime = 0;
 		while (true) {
+			long dt = System.nanoTime() - (frameTime + startTime);
+			frameTime += dt;
 			try {
 				Thread.sleep(15);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			for (Client c : server.clients) {
-				c.update();
+				c.update(dt / 1000000000.0);
 				synchronized (server.clients) {
 					c.sendData(server.clients);
 				}

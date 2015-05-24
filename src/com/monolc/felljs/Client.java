@@ -6,7 +6,8 @@ import org.java_websocket.*;
 
 public class Client {
 	public WebSocket connection;
-	int x, y;
+	public boolean validated = false;
+	public double x, y;
 	boolean[] isKeyDown = new boolean[256];
 
 	public Client(WebSocket conn) {
@@ -26,8 +27,8 @@ public class Client {
 		}
 	}
 
-	public void update() {
-		int speed = 3;
+	public void update(double dt) {
+		double speed = 300 * dt;
 		if (isKeyDown['W']) {
 			y -= speed;
 		}
@@ -49,17 +50,20 @@ public class Client {
 	}
 
 	public String getData() {
-		return x + "," + y;
+		return (int) x + "," + (int) y;
 	}
 
 	public void sendData(ArrayList<Client> clients) {
+		if (!validated) {
+			return;
+		}
 		String clientData = "";
 		for (Client c : clients) {
-			if (!c.connection.equals(connection)) {
+			if (!c.connection.equals(connection) && c.validated) {
 				clientData += c.getData() + ",";
 			}
 		}
-		connection.send("pos:" + x + "," + y);
+		connection.send("pos:" + getData());
 		if (clientData.length() > 0) {
 			connection.send("dat:"
 					+ clientData.substring(0, clientData.length() - 1));
