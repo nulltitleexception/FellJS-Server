@@ -27,16 +27,12 @@ public class Program extends WebSocketServer {
 	@Override
 	public void onMessage(WebSocket conn, String message) {
 		if (message.startsWith("login:")) {
-			//delete below here
-			/*synchronized (clients) {
-				for (Client c : clients) {
-					if (c.connection.equals(conn)) {
-						c.validated = true;
-						return;
-					}
-				}
-			}*/
-			//delete above here
+			// delete below here
+			/*
+			 * synchronized (clients) { for (Client c : clients) { if
+			 * (c.connection.equals(conn)) { c.validated = true; return; } } }
+			 */
+			// delete above here
 			String login = message.replace("login:", "");
 			String user = login.substring(0, login.indexOf(","));
 			String pass = login.substring(login.indexOf(",") + 1);
@@ -48,7 +44,8 @@ public class Program extends WebSocketServer {
 				}
 			}
 			if (!exists) {
-				conn.close(0);;
+				conn.close(0);
+				;
 			} else {
 				synchronized (clients) {
 					for (Client c : clients) {
@@ -104,9 +101,9 @@ public class Program extends WebSocketServer {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			for (Client c : server.clients) {
-				c.update(dt / 1000000000.0);
-				synchronized (server.clients) {
+			synchronized (server.clients) {
+				for (Client c : server.clients) {
+					c.update(dt / 1000000000.0, server.clients);
 					c.sendData(server.clients);
 				}
 			}

@@ -4,16 +4,17 @@ import java.util.ArrayList;
 
 import org.java_websocket.*;
 
+import com.monolc.felljs.physics.Rect2D;
+
 public class Client {
 	public WebSocket connection;
 	public boolean validated = false;
-	public double x, y;
+	public Rect2D box;
 	boolean[] isKeyDown = new boolean[256];
 
 	public Client(WebSocket conn) {
 		connection = conn;
-		x = 10;
-		y = 10;
+		box = new Rect2D(10, 10, 30, 50);
 	}
 
 	public void handleInput(String msg) {
@@ -27,30 +28,71 @@ public class Client {
 		}
 	}
 
-	public void update(double dt) {
-		double speed = 300 * dt;
-		if (isKeyDown['W']) {
-			y -= speed;
+	public boolean checkCollisions(ArrayList<Client> clients) {
+		for (Client c : clients) {
+			if (!c.connection.equals(connection) && c.validated
+					&& box.intersects(c.box)) {
+				return true;
+			}
 		}
-		if (isKeyDown['A']) {
-			x -= speed;
+		return false;
+	}
+
+	public boolean fixCollisions(ArrayList<Client> clients) {
+		for (Client c : clients) {
+			if (!c.connection.equals(connection) && c.validated
+					&& box.intersects(c.box)) {
+				Rect2D intrsct = box.getIntersect(c.box);
+				if (intrsct.w < intrsct.h) {
+					if (box.x < c.box.x) {
+						box.x -= intrsct.w;
+					} else {
+						box.x += intrsct.w;
+					}
+				} else {
+					if (box.y < c.box.y) {
+						box.y -= intrsct.h;
+					} else {
+						box.y += intrsct.h;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	public void update(double dt, ArrayList<Client> clients) {
+		double speed = 300 * dt;
+		double ymod = 0;
+		double xmod = 0;
+		if (isKeyDown['W']) {
+			ymod -= speed;
 		}
 		if (isKeyDown['S']) {
-			y += speed;
+			ymod += speed;
+		}
+		if (isKeyDown['A']) {
+			xmod -= speed;
 		}
 		if (isKeyDown['D']) {
-			x += speed;
+			xmod += speed;
 		}
-		if (x < 1) {
-			x = 1;
+		if (box.x + xmod < 1) {
+			xmod = 0;
 		}
-		if (y < 1) {
-			y = 1;
+		if (box.y + ymod < 1) {
+			ymod = 0;
 		}
+		if (checkCollisions(clients)) {
+			System.out.println("LOGIC ERROR!");
+		}
+		box.x += xmod;
+		box.y += ymod;
+		fixCollisions(clients);
 	}
 
 	public String getData() {
-		return (int) x + "," + (int) y;
+		return (int) box.x + "," + (int) box.y;
 	}
 
 	public void sendData(ArrayList<Client> clients) {
