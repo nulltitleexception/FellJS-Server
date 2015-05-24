@@ -22,6 +22,7 @@ public class Client {
 		Color C = Color.getHSBColor(random.nextFloat(), 0.9f, 0.9f);
 		color = String.format("#%02X%02X%02X", C.getRed(), C.getGreen(),
 				C.getBlue());
+		System.out.println("Color generated: \"" + color + "\"");
 		connection = conn;
 		box = new Rect2D(10, 10, 30, 50);
 	}
