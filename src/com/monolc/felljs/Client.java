@@ -1,6 +1,8 @@
 package com.monolc.felljs;
 
+import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.java_websocket.*;
 
@@ -12,9 +14,14 @@ public class Client {
 	public boolean guest = false;
 	public Rect2D box;
 	public String username = null;
+	public String color = null;
 	boolean[] isKeyDown = new boolean[256];
 
 	public Client(WebSocket conn) {
+		Random random = new Random();
+		Color C = Color.getHSBColor(random.nextFloat(), 0.9f, 0.9f);
+		color = String.format("#%02X%02X%02X", C.getRed(), C.getGreen(),
+				C.getBlue());
 		connection = conn;
 		box = new Rect2D(10, 10, 30, 50);
 	}
@@ -94,7 +101,8 @@ public class Client {
 	}
 
 	public String getData() {
-		return (int) box.x + "," + (int) box.y + "," + (username != null ? username : "ERROR");
+		return (int) box.x + "," + (int) box.y + "," + color + ","
+				+ (username != null ? username : "ERROR");
 	}
 
 	public void sendData(ArrayList<Client> clients) {
