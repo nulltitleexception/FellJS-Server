@@ -23,7 +23,7 @@ public class Client {
 		Color C = Color.getHSBColor(random.nextFloat(), 0.9f, 0.9f);
 		String color = String.format("#%02X%02X%02X", C.getRed(), C.getGreen(),
 				C.getBlue());
-		e = new Entity(new Rect2D(10, 10, 32, 32), color);
+		e = new Entity(new Rect2D(10, 10, 32, 32), color, 10);
 	}
 
 	public void handleInput(String msg) {
@@ -86,12 +86,12 @@ public class Client {
 		if (isKeyDown['D']) {
 			xmod += speed;
 		}
-		if (e.box.x + xmod < 1) {
+		/*if (e.box.x + xmod < 1) {
 			xmod = 0;
 		}
 		if (e.box.y + ymod < 1) {
 			ymod = 0;
-		}
+		}*/
 		if (checkCollisions(clients)) {
 			System.out.println("LOGIC ERROR!");
 		}
@@ -102,10 +102,10 @@ public class Client {
 
 	public String getData() {
 		return (int) e.box.x + "," + (int) e.box.y + "," + (int) e.box.w + "," + (int) e.box.h + "," + e.color + ","
-				+ (username != null ? username : "SERVER_ERROR");
+				+ (username != null ? username : "SERVER_ERROR") + e.health;
 	}
 	public int getDataStride(){
-		return 6;
+		return 7;
 	}
 
 	public void sendData(ArrayList<Client> clients) {
