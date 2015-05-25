@@ -101,8 +101,11 @@ public class Client {
 	}
 
 	public String getData() {
-		return (int) e.box.x + "," + (int) e.box.y + "," + e.color + ","
-				+ (username != null ? username : "ERROR");
+		return (int) e.box.x + "," + (int) e.box.y + "," + (int) e.box.w + "," + (int) e.box.h + "," + e.color + ","
+				+ (username != null ? username : "SERVER_ERROR");
+	}
+	public int getDataStride(){
+		return 6;
 	}
 
 	public void sendData(ArrayList<Client> clients) {
@@ -117,7 +120,7 @@ public class Client {
 		}
 		connection.send("pos:" + getData());
 		if (clientData.length() > 0) {
-			connection.send("dat:"
+			connection.send("dat"+getDataStride()+":"
 					+ clientData.substring(0, clientData.length() - 1));
 		}
 	}
