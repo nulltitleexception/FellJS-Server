@@ -86,12 +86,10 @@ public class Client {
 		if (isKeyDown['D']) {
 			xmod += speed;
 		}
-		/*if (e.box.x + xmod < 1) {
-			xmod = 0;
-		}
-		if (e.box.y + ymod < 1) {
-			ymod = 0;
-		}*/
+		/*
+		 * if (e.box.x + xmod < 1) { xmod = 0; } if (e.box.y + ymod < 1) { ymod
+		 * = 0; }
+		 */
 		if (checkCollisions(clients)) {
 			System.out.println("LOGIC ERROR!");
 		}
@@ -101,10 +99,13 @@ public class Client {
 	}
 
 	public String getData() {
-		return (int) e.box.x + "," + (int) e.box.y + "," + (int) e.box.w + "," + (int) e.box.h + "," + e.color + ","
-				+ (username != null ? username : "SERVER_ERROR") + e.health;
+		return (int) e.box.x + "," + (int) e.box.y + "," + (int) e.box.w + ","
+				+ (int) e.box.h + "," + e.color + ","
+				+ (username != null ? username : "SERVER_ERROR") + ","
+				+ e.health;
 	}
-	public int getDataStride(){
+
+	public int getDataStride() {
 		return 7;
 	}
 
@@ -120,7 +121,7 @@ public class Client {
 		}
 		connection.send("pos:" + getData());
 		if (clientData.length() > 0) {
-			connection.send("dat"+getDataStride()+":"
+			connection.send("dat" + getDataStride() + ":"
 					+ clientData.substring(0, clientData.length() - 1));
 		}
 	}
