@@ -7,23 +7,23 @@ import java.util.Random;
 import org.java_websocket.*;
 
 import com.monolc.felljs.physics.Rect2D;
+import com.monolc.felljs.world.Entity;
 
 public class Client {
 	public WebSocket connection;
 	public boolean validated = false;
 	public boolean guest = false;
-	public Rect2D box;
 	public String username = null;
-	public String color = null;
 	boolean[] isKeyDown = new boolean[256];
+	Entity e;
 
 	public Client(WebSocket conn) {
+		connection = conn;
 		Random random = new Random();
 		Color C = Color.getHSBColor(random.nextFloat(), 0.9f, 0.9f);
-		color = String.format("#%02X%02X%02X", C.getRed(), C.getGreen(),
+		String color = String.format("#%02X%02X%02X", C.getRed(), C.getGreen(),
 				C.getBlue());
-		connection = conn;
-		box = new Rect2D(10, 10, 30, 50);
+		e = new Entity(new Rect2D(10, 10, 30, 50), color);
 	}
 
 	public void handleInput(String msg) {
@@ -40,7 +40,7 @@ public class Client {
 	public boolean checkCollisions(ArrayList<Client> clients) {
 		for (Client c : clients) {
 			if (!c.connection.equals(connection) && c.validated
-					&& box.intersects(c.box)) {
+					&& e.box.intersects(c.e.box)) {
 				return true;
 			}
 		}
@@ -50,19 +50,19 @@ public class Client {
 	public boolean fixCollisions(ArrayList<Client> clients) {
 		for (Client c : clients) {
 			if (!c.connection.equals(connection) && c.validated
-					&& box.intersects(c.box)) {
-				Rect2D intrsct = box.getIntersect(c.box);
+					&& e.box.intersects(c.e.box)) {
+				Rect2D intrsct = e.box.getIntersect(c.e.box);
 				if (intrsct.w < intrsct.h) {
-					if (box.x < c.box.x) {
-						box.x -= intrsct.w;
+					if (e.box.x < c.e.box.x) {
+						e.box.x -= intrsct.w;
 					} else {
-						box.x += intrsct.w;
+						e.box.x += intrsct.w;
 					}
 				} else {
-					if (box.y < c.box.y) {
-						box.y -= intrsct.h;
+					if (e.box.y < c.e.box.y) {
+						e.box.y -= intrsct.h;
 					} else {
-						box.y += intrsct.h;
+						e.box.y += intrsct.h;
 					}
 				}
 			}
@@ -86,22 +86,22 @@ public class Client {
 		if (isKeyDown['D']) {
 			xmod += speed;
 		}
-		if (box.x + xmod < 1) {
+		if (e.box.x + xmod < 1) {
 			xmod = 0;
 		}
-		if (box.y + ymod < 1) {
+		if (e.box.y + ymod < 1) {
 			ymod = 0;
 		}
 		if (checkCollisions(clients)) {
 			System.out.println("LOGIC ERROR!");
 		}
-		box.x += xmod;
-		box.y += ymod;
+		e.box.x += xmod;
+		e.box.y += ymod;
 		fixCollisions(clients);
 	}
 
 	public String getData() {
-		return (int) box.x + "," + (int) box.y + "," + color + ","
+		return (int) e.box.x + "," + (int) e.box.y + "," + e.color + ","
 				+ (username != null ? username : "ERROR");
 	}
 
