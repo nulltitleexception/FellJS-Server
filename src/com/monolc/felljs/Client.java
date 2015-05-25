@@ -23,7 +23,7 @@ public class Client {
 		Color C = Color.getHSBColor(random.nextFloat(), 0.9f, 0.9f);
 		String color = String.format("#%02X%02X%02X", C.getRed(), C.getGreen(),
 				C.getBlue());
-		e = new Entity(new Rect2D(10, 10, 30, 50), color);
+		e = new Entity(new Rect2D(10, 10, 32, 32), color);
 	}
 
 	public void handleInput(String msg) {
