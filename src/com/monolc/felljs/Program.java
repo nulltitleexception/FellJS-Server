@@ -107,6 +107,14 @@ public class Program extends WebSocketServer {
 		long frameTime = 0;
 		while (true) {
 			long dt = System.nanoTime() - (frameTime + startTime);
+			if (dt > 100000000.0) {
+				if (dt > 1000000000.0) {
+					System.out
+							.println("SIGNIFICANT LAG DETECTED! SERVER FPS < 1");
+				} else {
+					System.out.println("lag detected: fps < 10");
+				}
+			}
 			frameTime += dt;
 			try {
 				Thread.sleep(15);
@@ -115,15 +123,10 @@ public class Program extends WebSocketServer {
 			}
 			synchronized (server.clients) {
 				for (Client c : server.clients) {
-					c.update(dt / 1000000000.0, server.clients);
-					if (dt > 100000000.0) {
-						if (dt > 1000000000.0) {
-							System.out.println("SIGNIFICANT LAG DETECTED! SERVER FPS < 1");
-						} else {
-							System.out.println("lag detected: fps < 10");
-						}
+					if (c.validated) {
+						c.update(dt / 1000000000.0, server.clients);
+						c.sendData(server.clients);
 					}
-					c.sendData(server.clients);
 				}
 			}
 		}
