@@ -7,6 +7,7 @@ import com.monolc.felljs.physics.Rect2D;
 public class Entity {
 	int id = -1;
 	public Rect2D box;
+	public double xvel, yvel;
 	public String color = null;
 	public int health;
 	public World world;
@@ -18,12 +19,15 @@ public class Entity {
 		world.addEntity(this);
 	}
 
-	public void move(double dx, double dy) {
+	public void move(double vx, double vy) {
+		double muFactor = 0.95;
+		xvel = (xvel * muFactor) + (vx * (1-muFactor));
+		yvel = (yvel * muFactor) + (vy * (1-muFactor));
 		if (checkCollisions(world.entities)) {
 			System.out.println("LOGIC ERROR!");
 		}
-		box.x += dx;
-		box.y += dy;
+		box.x += xvel;
+		box.y += yvel;
 		fixCollisions(world.entities);
 	}
 
