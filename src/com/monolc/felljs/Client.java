@@ -10,6 +10,7 @@ import com.monolc.felljs.physics.Rect2D;
 import com.monolc.felljs.world.Entity;
 
 public class Client {
+	public Program server;
 	public WebSocket connection;
 	public boolean validated = false;
 	public boolean guest = false;
@@ -17,13 +18,14 @@ public class Client {
 	boolean[] isKeyDown = new boolean[256];
 	Entity e;
 
-	public Client(WebSocket conn) {
+	public Client(Program s, WebSocket conn) {
+		server = s;
 		connection = conn;
 		Random random = new Random();
 		Color C = Color.getHSBColor(random.nextFloat(), 0.9f, 0.9f);
 		String color = String.format("#%02X%02X%02X", C.getRed(), C.getGreen(),
 				C.getBlue());
-		e = new Entity(new Rect2D(10, 10, 32, 32), color, 10);
+		e = new Entity(s.world ,new Rect2D(10, 10, 32, 32), color, 10);
 	}
 
 	public void handleInput(String msg) {
@@ -35,39 +37,6 @@ public class Client {
 		for (int i = 0; i < msg.length() && i < isKeyDown.length; i++) {
 			isKeyDown[i] = msg.charAt(i) == '1';
 		}
-	}
-
-	public boolean checkCollisions(ArrayList<Client> clients) {
-		for (Client c : clients) {
-			if (!c.connection.equals(connection) && c.validated
-					&& e.box.intersects(c.e.box)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean fixCollisions(ArrayList<Client> clients) {
-		for (Client c : clients) {
-			if (!c.connection.equals(connection) && c.validated
-					&& e.box.intersects(c.e.box)) {
-				Rect2D intrsct = e.box.getIntersect(c.e.box);
-				if (intrsct.w < intrsct.h) {
-					if (e.box.x < c.e.box.x) {
-						e.box.x -= intrsct.w;
-					} else {
-						e.box.x += intrsct.w;
-					}
-				} else {
-					if (e.box.y < c.e.box.y) {
-						e.box.y -= intrsct.h;
-					} else {
-						e.box.y += intrsct.h;
-					}
-				}
-			}
-		}
-		return false;
 	}
 
 	public void update(double dt, ArrayList<Client> clients) {
@@ -86,16 +55,7 @@ public class Client {
 		if (isKeyDown['D']) {
 			xmod += speed;
 		}
-		/*
-		 * if (e.box.x + xmod < 1) { xmod = 0; } if (e.box.y + ymod < 1) { ymod
-		 * = 0; }
-		 */
-		if (checkCollisions(clients)) {
-			System.out.println("LOGIC ERROR!");
-		}
-		e.box.x += xmod;
-		e.box.y += ymod;
-		fixCollisions(clients);
+		e.move(xmod, ymod);
 	}
 
 	public String getData() {

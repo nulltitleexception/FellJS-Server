@@ -8,18 +8,21 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import com.monolc.felljs.res.Resources;
+import com.monolc.felljs.world.World;
 
 public class Program extends WebSocketServer {
 	public ArrayList<Client> clients = new ArrayList<Client>();
+	public World world;
 
 	public Program() {
 		super(new InetSocketAddress(38734));
+		world = new World();
 	}
 
 	@Override
 	public void onOpen(WebSocket conn, ClientHandshake handshake) {
 		synchronized (clients) {
-			clients.add(new Client(conn));
+			clients.add(new Client(this, conn));
 		}
 	}
 
