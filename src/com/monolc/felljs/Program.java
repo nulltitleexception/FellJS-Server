@@ -87,6 +87,7 @@ public class Program extends WebSocketServer {
 			boolean cont = true;
 			for (int i = 0; i < clients.size() && cont; i++) {
 				if (clients.get(i).connection.equals(conn)) {
+					clients.get(i).e.remove();
 					System.out.println(clients.remove(i).username
 							+ " disconected");
 					cont = false;

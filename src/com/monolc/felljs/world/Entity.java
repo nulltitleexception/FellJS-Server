@@ -70,4 +70,8 @@ public class Entity {
 		}
 		return false;
 	}
+
+	public void remove() {
+		world.removeEntity(this);
+	}
 }
