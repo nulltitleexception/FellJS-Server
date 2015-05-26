@@ -10,7 +10,7 @@ public class World {
 	public String toString(){
 		String ret = "";
 		for (Entity e : entities) {
-				ret += e + ",";
+				ret += e.toString() + ",";
 		}	
 		return ret.substring(0, ret.length() - 1);
 	}
