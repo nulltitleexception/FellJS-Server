@@ -3,9 +3,16 @@ package com.monolc.felljs.world;
 import java.util.ArrayList;
 
 public class World {
-	ArrayList<Entity> entities;
+	public ArrayList<Entity> entities;
 	public World(){
 		entities = new ArrayList<Entity>();
+	}
+	public String toString(){
+		String ret = "";
+		for (Entity e : entities) {
+				ret += e + ",";
+		}	
+		return ret.substring(0, ret.length() - 1);
 	}
 	public synchronized void addEntity(Entity e) {
 		entities.add(e);

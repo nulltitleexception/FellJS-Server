@@ -9,14 +9,23 @@ public class Entity {
 	public Rect2D box;
 	public double xvel, yvel;
 	public String color = null;
+	public String name = null;
 	public int health;
 	public World world;
-	public Entity(World w, Rect2D b, String c, int h) {
+	public Entity(World w, Rect2D b, String c, String n, int h) {
 		world = w;
 		box = b;
 		color = c;
 		health = h;
+		name = n;
 		world.addEntity(this);
+	}
+
+	public String toString() {
+		return (int) box.x + "," + (int) box.y + "," + (int) box.w + ","
+				+ (int) box.h + "," + color + ","
+				+ (name != null ? name : "SERVER_ERROR") + ","
+				+ health;
 	}
 
 	public void move(double vx, double vy) {

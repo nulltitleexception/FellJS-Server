@@ -21,11 +21,14 @@ public class Client {
 	public Client(Program s, WebSocket conn) {
 		server = s;
 		connection = conn;
+	}
+	
+	public void spawnIn(){
 		Random random = new Random();
 		Color C = Color.getHSBColor(random.nextFloat(), 0.9f, 0.9f);
 		String color = String.format("#%02X%02X%02X", C.getRed(), C.getGreen(),
 				C.getBlue());
-		e = new Entity(s.world ,new Rect2D(10, 10, 32, 32), color, 10);
+		e = new Entity(server.world ,new Rect2D(10, 10, 32, 32), color, username, 10);
 	}
 
 	public void handleInput(String msg) {
@@ -58,13 +61,6 @@ public class Client {
 		e.move(xmod, ymod);
 	}
 
-	public String getData() {
-		return (int) e.box.x + "," + (int) e.box.y + "," + (int) e.box.w + ","
-				+ (int) e.box.h + "," + e.color + ","
-				+ (username != null ? username : "SERVER_ERROR") + ","
-				+ e.health;
-	}
-
 	public int getDataStride() {
 		return 7;
 	}
@@ -73,16 +69,11 @@ public class Client {
 		if (!validated) {
 			return;
 		}
-		String clientData = "";
-		for (Client c : clients) {
-			if (!c.connection.equals(connection) && c.validated) {
-				clientData += c.getData() + ",";
-			}
-		}
-		connection.send("pos:" + getData());
-		if (clientData.length() > 0) {
+		String entityData = server.world.toString();
+		connection.send("pos:" + e);
+		if (entityData.length() > 0) {
 			connection.send("dat" + getDataStride() + ":"
-					+ clientData.substring(0, clientData.length() - 1));
+					+ entityData);
 		}
 	}
 }
