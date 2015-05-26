@@ -20,7 +20,7 @@ public class Entity {
 	}
 
 	public void move(double vx, double vy) {
-		double muFactor = 0.95;
+		double muFactor = 0.9;
 		xvel = (xvel * muFactor) + (vx * (1-muFactor));
 		yvel = (yvel * muFactor) + (vy * (1-muFactor));
 		if (checkCollisions(world.entities)) {
