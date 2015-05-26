@@ -116,6 +116,13 @@ public class Program extends WebSocketServer {
 			synchronized (server.clients) {
 				for (Client c : server.clients) {
 					c.update(dt / 1000000000.0, server.clients);
+					if (dt > 100000000.0) {
+						if (dt > 1000000000.0) {
+							System.out.println("SIGNIFICANT LAG DETECTED! SERVER FPS < 1");
+						} else {
+							System.out.println("lag detected: fps < 10");
+						}
+					}
 					c.sendData(server.clients);
 				}
 			}
