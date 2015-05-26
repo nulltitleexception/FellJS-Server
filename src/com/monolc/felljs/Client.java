@@ -70,6 +70,7 @@ public class Client {
 			return;
 		}
 		String entityData = server.world.toString();
+		System.out.println(entityData);
 		connection.send("pos:" + e);
 		if (entityData.length() > 0) {
 			connection.send("dat" + getDataStride() + ":"
