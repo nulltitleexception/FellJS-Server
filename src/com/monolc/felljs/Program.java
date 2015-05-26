@@ -39,6 +39,7 @@ public class Program extends WebSocketServer {
 							c.validated = true;
 							c.guest = true;
 							c.username = user;
+							c.spawnIn();
 							System.out.println(user + " Connected");
 							return;
 						}
@@ -51,6 +52,7 @@ public class Program extends WebSocketServer {
 						if (c.connection.equals(conn)) {
 							c.validated = true;
 							c.username = user;
+							c.spawnIn();
 							return;
 						}
 					}
