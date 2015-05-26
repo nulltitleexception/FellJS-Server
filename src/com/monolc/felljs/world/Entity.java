@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.monolc.felljs.physics.Rect2D;
 
 public class Entity {
-	int id;
+	int id = -1;
 	public Rect2D box;
 	public String color = null;
 	public int health;
@@ -15,6 +15,7 @@ public class Entity {
 		box = b;
 		color = c;
 		health = h;
+		world.addEntity(this);
 	}
 
 	public void move(double dx, double dy) {
