@@ -17,15 +17,15 @@ public class World {
 		entities = new ArrayList<Entity>();
 	}
 	@SuppressWarnings("unchecked")
-	public String toString(){
+	public JSONObject toJSON(){
 		JSONObject ret = new JSONObject();
 		ret.put("enum", new Integer((int) entities.size()));
-		JSONObject arr = new JSONObject();
+		JSONArray arr = new JSONArray();
 		for (int i = 0; i < entities.size(); i++){
-			arr.put(new Integer((int) i), entities.get(i).toString());
+			arr.set(i, entities.get(i).toJSON());
 		}
-		ret.put("entities", arr.toString());
-		return ret.toString();
+		ret.put("entities", arr);
+		return ret;
 	}
 	public synchronized void addEntity(Entity e) {
 		entities.add(e);

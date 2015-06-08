@@ -80,7 +80,7 @@ public class Client {
 		if (!validated) {
 			return;
 		}
-		connection.send("pos:" + e);
-		connection.send(server.world.toString());
+		connection.send("pos:" + e.toJSON().toJSONString());
+		connection.send(server.world.toJSON().toJSONString());
 	}
 }

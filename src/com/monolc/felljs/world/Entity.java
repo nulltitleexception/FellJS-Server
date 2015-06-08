@@ -27,7 +27,7 @@ public class Entity {
 	}
 
 	@SuppressWarnings("unchecked")
-	public String toString() {
+	public JSONObject toJSON() {
 		JSONObject ret = new JSONObject();
 		ret.put("x", new Integer((int) box.x));
 		ret.put("y", new Integer((int) box.y));
@@ -36,7 +36,7 @@ public class Entity {
 		ret.put("color", color);
 		ret.put("name", (name != null ? name : "SERVER_ERROR"));
 		ret.put("health", new Integer(health));
-		return ret.toString();
+		return ret;
 	}
 
 	public void move(double vx, double vy) {
