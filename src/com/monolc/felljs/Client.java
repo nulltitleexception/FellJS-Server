@@ -22,13 +22,14 @@ public class Client {
 		server = s;
 		connection = conn;
 	}
-	
-	public void spawnIn(){
+
+	public void spawnIn() {
 		Random random = new Random();
 		Color C = Color.getHSBColor(random.nextFloat(), 0.9f, 0.9f);
 		String color = String.format("#%02X%02X%02X", C.getRed(), C.getGreen(),
 				C.getBlue());
-		e = new Entity(server.world ,new Rect2D(10, 10, 32, 32), color, username, 10);
+		e = new Entity(server.world, new Rect2D(10, 10, 32, 32), color,
+				username, 10);
 	}
 
 	public void handleInput(String msg) {
@@ -64,7 +65,7 @@ public class Client {
 			xmod += speed;
 			xmove = !xmove;
 		}
-		if (xmove && ymove){
+		if (xmove && ymove) {
 			xmod /= Math.sqrt(2.0);
 			ymod /= Math.sqrt(2.0);
 		}
@@ -79,11 +80,7 @@ public class Client {
 		if (!validated) {
 			return;
 		}
-		String entityData = server.world.toString();
 		connection.send("pos:" + e);
-		if (entityData.length() > 0) {
-			connection.send("dat" + getDataStride() + ":"
-					+ entityData);
-		}
+		connection.send(server.world.toString());
 	}
 }
