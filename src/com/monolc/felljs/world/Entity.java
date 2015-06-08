@@ -35,7 +35,7 @@ public class Entity {
 		ret.put("height", new Integer((int) box.h));
 		ret.put("color", color);
 		ret.put("name", (name != null ? name : "SERVER_ERROR"));
-		ret.put("health", "" + health);
+		ret.put("health", new Integer(health));
 		return ret.toString();
 	}
 
