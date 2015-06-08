@@ -1,18 +1,31 @@
 package com.monolc.felljs.world;
 
+import org.json.simple.*;
+
 import java.util.ArrayList;
 
 public class World {
 	public ArrayList<Entity> entities;
+	public Tile[][] tiles;
 	public World(){
+		tiles = new Tile[100][100];
+		for (int a = 0; a > tiles.length; a++){
+			for (int b = 0; b < tiles[0].length; b++){
+				tiles[a][b] = new Tile(0, true);
+			}
+		}
 		entities = new ArrayList<Entity>();
 	}
+	@SuppressWarnings("unchecked")
 	public String toString(){
-		String ret = "";
-		for (Entity e : entities) {
-				ret += e.toString() + ",";
-		}	
-		return ret.substring(0, ret.length() - 1);
+		JSONObject ret = new JSONObject();
+		ret.put("enum", "" + entities.size());
+		JSONObject arr = new JSONObject();
+		for (int i = 0; i < entities.size(); i++){
+			arr.put(i, entities.get(i).toString());
+		}
+		ret.put("entities", arr.toString());
+		return ret.toString();
 	}
 	public synchronized void addEntity(Entity e) {
 		entities.add(e);

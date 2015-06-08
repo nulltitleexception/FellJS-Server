@@ -2,6 +2,8 @@ package com.monolc.felljs.world;
 
 import java.util.ArrayList;
 
+import org.json.simple.JSONObject;
+
 import com.monolc.felljs.physics.Rect2D;
 import com.monolc.felljs.physics.Vector2D;
 
@@ -24,10 +26,17 @@ public class Entity {
 		world.addEntity(this);
 	}
 
+	@SuppressWarnings("unchecked")
 	public String toString() {
-		return (int) box.x + "," + (int) box.y + "," + (int) box.w + ","
-				+ (int) box.h + "," + color + ","
-				+ (name != null ? name : "SERVER_ERROR") + "," + health;
+		JSONObject ret = new JSONObject();
+		ret.put("x", "" + (int)box.x);
+		ret.put("y", "" + (int)box.y);
+		ret.put("width", "" + (int)box.w);
+		ret.put("height", "" + (int)box.h);
+		ret.put("color", color);
+		ret.put("name", (name != null ? name : "SERVER_ERROR"));
+		ret.put("health", "" + health);
+		return ret.toString();
 	}
 
 	public void move(double vx, double vy) {
