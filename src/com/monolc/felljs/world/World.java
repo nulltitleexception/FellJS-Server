@@ -19,10 +19,10 @@ public class World {
 	@SuppressWarnings("unchecked")
 	public String toString(){
 		JSONObject ret = new JSONObject();
-		ret.put("enum", "" + entities.size());
+		ret.put("enum", new Integer((int) entities.size()));
 		JSONObject arr = new JSONObject();
 		for (int i = 0; i < entities.size(); i++){
-			arr.put(i, entities.get(i).toString());
+			arr.put(new Integer((int) i), entities.get(i).toString());
 		}
 		ret.put("entities", arr.toString());
 		return ret.toString();

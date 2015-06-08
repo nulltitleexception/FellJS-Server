@@ -29,10 +29,10 @@ public class Entity {
 	@SuppressWarnings("unchecked")
 	public String toString() {
 		JSONObject ret = new JSONObject();
-		ret.put("x", "" + (int)box.x);
-		ret.put("y", "" + (int)box.y);
-		ret.put("width", "" + (int)box.w);
-		ret.put("height", "" + (int)box.h);
+		ret.put("x", new Integer((int) box.x));
+		ret.put("y", new Integer((int) box.y));
+		ret.put("width", new Integer((int) box.w));
+		ret.put("height", new Integer((int) box.h));
 		ret.put("color", color);
 		ret.put("name", (name != null ? name : "SERVER_ERROR"));
 		ret.put("health", "" + health);
