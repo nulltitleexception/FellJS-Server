@@ -46,17 +46,27 @@ public class Client {
 		double speed = 300 * dt;
 		double ymod = 0;
 		double xmod = 0;
+		boolean xmove = false;
+		boolean ymove = false;
 		if (isKeyDown['W']) {
 			ymod -= speed;
+			ymove = !ymove;
 		}
 		if (isKeyDown['S']) {
 			ymod += speed;
+			ymove = !ymove;
 		}
 		if (isKeyDown['A']) {
 			xmod -= speed;
+			xmove = !xmove;
 		}
 		if (isKeyDown['D']) {
 			xmod += speed;
+			xmove = !xmove;
+		}
+		if (xmove && ymove){
+			xmod /= Math.sqrt(2.0);
+			ymod /= Math.sqrt(2.0);
 		}
 		e.move(xmod, ymod);
 	}

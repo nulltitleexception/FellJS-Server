@@ -3,16 +3,19 @@ package com.monolc.felljs.world;
 import java.util.ArrayList;
 
 import com.monolc.felljs.physics.Rect2D;
+import com.monolc.felljs.physics.Vector2D;
 
 public class Entity {
 	int id = -1;
 	public Rect2D box;
-	public double xvel, yvel;
+	public Vector2D vel;
 	public String color = null;
 	public String name = null;
 	public int health;
 	public World world;
+
 	public Entity(World w, Rect2D b, String c, String n, int h) {
+		vel = new Vector2D();
 		world = w;
 		box = b;
 		color = c;
@@ -24,19 +27,17 @@ public class Entity {
 	public String toString() {
 		return (int) box.x + "," + (int) box.y + "," + (int) box.w + ","
 				+ (int) box.h + "," + color + ","
-				+ (name != null ? name : "SERVER_ERROR") + ","
-				+ health;
+				+ (name != null ? name : "SERVER_ERROR") + "," + health;
 	}
 
 	public void move(double vx, double vy) {
 		double muFactor = 0.9;
-		xvel = (xvel * muFactor) + (vx * (1-muFactor));
-		yvel = (yvel * muFactor) + (vy * (1-muFactor));
+		vel = vel.mult(muFactor).add((new Vector2D(vx, vy)).mult(1 - muFactor));
 		if (checkCollisions(world.entities)) {
 			System.out.println("LOGIC ERROR!");
 		}
-		box.x += xvel;
-		box.y += yvel;
+		box.x += vel.X();
+		box.y += vel.Y();
 		fixCollisions(world.entities);
 	}
 
