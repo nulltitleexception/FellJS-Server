@@ -22,7 +22,7 @@ public class World {
 		ret.put("enum", new Integer((int) entities.size()));
 		JSONArray arr = new JSONArray();
 		for (int i = 0; i < entities.size(); i++){
-			arr.set(i, entities.get(i).toJSON());
+			arr.add(entities.get(i).toJSON());
 		}
 		ret.put("entities", arr);
 		return ret;
