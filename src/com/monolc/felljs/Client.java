@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import org.java_websocket.*;
+import org.json.simple.JSONObject;
 
 import com.monolc.felljs.physics.Rect2D;
 import com.monolc.felljs.world.Entity;
@@ -76,11 +77,13 @@ public class Client {
 		return 7;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void sendData(ArrayList<Client> clients) {
 		if (!validated) {
 			return;
 		}
-		connection.send("pos:" + e.toJSON().toJSONString());
-		connection.send(server.world.toJSON().toJSONString());
+		JSONObject send = server.world.toJSON();
+		send.put("player", e.toJSON());
+		connection.send(send.toJSONString());
 	}
 }
