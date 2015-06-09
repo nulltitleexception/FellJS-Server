@@ -82,7 +82,7 @@ public class Client {
 		if (!validated) {
 			return;
 		}
-		JSONObject send = server.world.toJSON();
+		JSONObject send = server.world.toJSONDynamic();
 		send.put("player", e.toJSON());
 		connection.send(send.toJSONString());
 	}
