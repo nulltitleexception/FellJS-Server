@@ -12,7 +12,7 @@ public class Level {
 	public Level() {
 		Random r = new Random();
 		tiles = new Tile[100][100];
-		for (int a = 0; a > tiles.length; a++) {
+		for (int a = 0; a < tiles.length; a++) {
 			for (int b = 0; b < tiles[0].length; b++) {
 				tiles[a][b] = new Tile(r.nextInt(3), true);
 			}
