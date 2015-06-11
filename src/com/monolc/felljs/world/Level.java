@@ -9,9 +9,9 @@ public class Level {
 	public ArrayList<Entity> entities;
 	public Tile[][] tiles;
 
-	public Level() {
+	Level(int w, int h) {
 		Random r = new Random();
-		tiles = new Tile[100][100];
+		tiles = new Tile[w][h];
 		for (int a = 0; a < tiles.length; a++) {
 			for (int b = 0; b < tiles[0].length; b++) {
 				tiles[a][b] = new Tile(r.nextInt(3), true);

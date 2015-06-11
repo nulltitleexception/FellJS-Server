@@ -30,7 +30,7 @@ public class Client {
 		Color C = Color.getHSBColor(random.nextFloat(), 0.9f, 0.9f);
 		String color = String.format("#%02X%02X%02X", C.getRed(), C.getGreen(),
 				C.getBlue());
-		e = new Entity(server.world, new Rect2D(10, 10, 32, 32), color,
+		e = new Entity(server.level, new Rect2D(10, 10, 32, 32), color,
 				username, 10);
 		e.client = this;
 	}
@@ -84,10 +84,10 @@ public class Client {
 		if (!validated) {
 			return;
 		}
-		JSONObject send = server.world.toJSONDynamic();
+		JSONObject send = server.level.toJSONDynamic();
 		send.put("player", e.toJSON());
 		if (needsNewLevelStaticData) {
-			send.put("level", server.world.toJSONStatic());
+			send.put("level", server.level.toJSONStatic());
 			needsNewLevelStaticData = false;
 		}
 		connection.send(send.toJSONString());

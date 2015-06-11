@@ -2,6 +2,7 @@ package com.monolc.felljs;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.java_websocket.*;
 import org.java_websocket.handshake.ClientHandshake;
@@ -9,14 +10,15 @@ import org.java_websocket.server.WebSocketServer;
 
 import com.monolc.felljs.res.Resources;
 import com.monolc.felljs.world.Level;
+import com.monolc.felljs.world.LevelGenerator;
 
 public class Program extends WebSocketServer {
 	public ArrayList<Client> clients = new ArrayList<Client>();
-	public Level world;
+	public Level level;
 
 	public Program() {
 		super(new InetSocketAddress(38734));
-		world = new Level();
+		level = LevelGenerator.createDungeonLevel(new Random(), 100, 100);
 	}
 
 	@Override
