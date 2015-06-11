@@ -5,11 +5,11 @@ import org.json.simple.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class World {
+public class Level {
 	public ArrayList<Entity> entities;
 	public Tile[][] tiles;
 
-	public World() {
+	public Level() {
 		Random r = new Random();
 		tiles = new Tile[100][100];
 		for (int a = 0; a > tiles.length; a++) {
@@ -21,7 +21,7 @@ public class World {
 	}
 
 	@SuppressWarnings("unchecked")
-	public JSONObject toJSONDynamic() {
+	public synchronized JSONObject toJSONDynamic() {
 		JSONObject ret = new JSONObject();
 		ret.put("enum", new Integer((int) entities.size()));
 		JSONArray arr = new JSONArray();
@@ -33,7 +33,7 @@ public class World {
 	}
 
 	@SuppressWarnings("unchecked")
-	public JSONObject toJSONStatic() {
+	public synchronized JSONObject toJSONStatic() {
 		JSONObject ret = new JSONObject();
 		ret.put("width", new Integer((int) tiles.length));
 		ret.put("height", new Integer((int) tiles[0].length));

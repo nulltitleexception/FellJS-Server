@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 
+import com.monolc.felljs.Client;
 import com.monolc.felljs.physics.Rect2D;
 import com.monolc.felljs.physics.Vector2D;
 
@@ -14,16 +15,17 @@ public class Entity {
 	public String color = null;
 	public String name = null;
 	public int health;
-	public World world;
+	public Level level;
+	public Client client = null;//only if this is a player. (otherwise this will remain null)
 
-	public Entity(World w, Rect2D b, String c, String n, int h) {
+	public Entity(Level w, Rect2D b, String c, String n, int h) {
 		vel = new Vector2D();
-		world = w;
+		level = w;
 		box = b;
 		color = c;
 		health = h;
 		name = n;
-		world.addEntity(this);
+		level.addEntity(this);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -42,12 +44,12 @@ public class Entity {
 	public void move(double vx, double vy) {
 		double muFactor = 0.9;
 		vel = vel.mult(muFactor).add((new Vector2D(vx, vy)).mult(1 - muFactor));
-		if (checkCollisions(world.entities)) {
+		if (checkCollisions(level.entities)) {
 			System.out.println("LOGIC ERROR!");
 		}
 		box.x += vel.X();
 		box.y += vel.Y();
-		fixCollisions(world.entities);
+		fixCollisions(level.entities);
 	}
 
 	public boolean checkCollisions(ArrayList<Entity> entities) {
@@ -82,6 +84,6 @@ public class Entity {
 	}
 
 	public void remove() {
-		world.removeEntity(this);
+		level.removeEntity(this);
 	}
 }

@@ -8,15 +8,15 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import com.monolc.felljs.res.Resources;
-import com.monolc.felljs.world.World;
+import com.monolc.felljs.world.Level;
 
 public class Program extends WebSocketServer {
 	public ArrayList<Client> clients = new ArrayList<Client>();
-	public World world;
+	public Level world;
 
 	public Program() {
 		super(new InetSocketAddress(38734));
-		world = new World();
+		world = new Level();
 	}
 
 	@Override

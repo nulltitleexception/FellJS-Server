@@ -15,6 +15,7 @@ public class Client {
 	public WebSocket connection;
 	public boolean validated = false;
 	public boolean guest = false;
+	public boolean needsNewLevelStaticData = true;
 	public String username = null;
 	boolean[] isKeyDown = new boolean[256];
 	Entity e;
@@ -31,6 +32,7 @@ public class Client {
 				C.getBlue());
 		e = new Entity(server.world, new Rect2D(10, 10, 32, 32), color,
 				username, 10);
+		e.client = this;
 	}
 
 	public void handleInput(String msg) {
@@ -84,6 +86,9 @@ public class Client {
 		}
 		JSONObject send = server.world.toJSONDynamic();
 		send.put("player", e.toJSON());
+		if (needsNewLevelStaticData){
+			send.put("level", server.world.toJSONStatic());
+		}
 		connection.send(send.toJSONString());
 	}
 }
