@@ -86,8 +86,9 @@ public class Client {
 		}
 		JSONObject send = server.world.toJSONDynamic();
 		send.put("player", e.toJSON());
-		if (needsNewLevelStaticData){
+		if (needsNewLevelStaticData) {
 			send.put("level", server.world.toJSONStatic());
+			System.out.println(send.toJSONString());
 		}
 		connection.send(send.toJSONString());
 	}
