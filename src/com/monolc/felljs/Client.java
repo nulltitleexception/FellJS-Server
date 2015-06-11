@@ -89,6 +89,7 @@ public class Client {
 		if (needsNewLevelStaticData) {
 			send.put("level", server.world.toJSONStatic());
 			System.out.println(send.toJSONString());
+			needsNewLevelStaticData = false;
 		}
 		connection.send(send.toJSONString());
 	}
