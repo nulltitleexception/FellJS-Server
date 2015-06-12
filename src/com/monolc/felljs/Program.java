@@ -39,6 +39,7 @@ public class Program extends WebSocketServer {
 					for (Client c : clients) {
 						if (c.connection.equals(conn)) {
 							c.validated = true;
+							c.sendValid();
 							c.guest = true;
 							c.username = user;
 							c.spawnIn();
@@ -48,19 +49,20 @@ public class Program extends WebSocketServer {
 					}
 				}
 			}
-			if (Resources.isValidUser(user, pass)) {
-				synchronized (clients) {
-					for (Client c : clients) {
-						if (c.connection.equals(conn)) {
+			synchronized (clients) {
+				for (Client c : clients) {
+					if (c.connection.equals(conn)) {
+
+						if (Resources.isValidUser(user, pass)) {
 							c.validated = true;
 							c.username = user;
 							c.spawnIn();
 							return;
+						} else {
+							c.kick("Invalid username or password");
 						}
 					}
 				}
-			} else {
-				conn.close(0);
 			}
 			return;
 		} else if (message.startsWith("add:")) {

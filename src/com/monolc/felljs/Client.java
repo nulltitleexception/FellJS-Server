@@ -25,6 +25,22 @@ public class Client {
 		connection = conn;
 	}
 
+	@SuppressWarnings("unchecked")
+	public void kick(String s){
+		JSONObject send = new JSONObject();
+		send.put("kicked", s);
+		connection.send(send.toJSONString());
+		connection.close(0);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void sendValid(){
+		JSONObject send = new JSONObject();
+		send.put("validated", new Boolean(true));
+		connection.send(send.toJSONString());
+		connection.close(0);
+	}
+	
 	public void spawnIn() {
 		Random random = new Random();
 		Color C = Color.getHSBColor(random.nextFloat(), 0.9f, 0.9f);
