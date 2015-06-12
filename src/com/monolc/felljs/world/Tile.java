@@ -13,7 +13,6 @@ public class Tile {
 	public JSONObject toJSON(){
 		JSONObject ret = new JSONObject();
 		ret.put("id", new Integer(id));
-		ret.put("p", new Boolean(passable));
 		return ret;
 	}
 }
