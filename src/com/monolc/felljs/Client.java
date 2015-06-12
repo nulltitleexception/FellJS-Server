@@ -38,7 +38,6 @@ public class Client {
 		JSONObject send = new JSONObject();
 		send.put("validated", new Boolean(true));
 		connection.send(send.toJSONString());
-		connection.close(0);
 	}
 	
 	public void spawnIn() {
