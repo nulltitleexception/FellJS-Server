@@ -34,10 +34,14 @@ public class Client {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void sendValid(){
+	public void validate(boolean isGuest, String user){
+		username = user;
+		guest = isGuest;
+		validated = true;
 		JSONObject send = new JSONObject();
 		send.put("validated", new Boolean(true));
 		connection.send(send.toJSONString());
+		spawnIn();
 	}
 	
 	public void spawnIn() {

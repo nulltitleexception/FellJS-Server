@@ -38,12 +38,9 @@ public class Program extends WebSocketServer {
 				synchronized (clients) {
 					for (Client c : clients) {
 						if (c.connection.equals(conn)) {
-							c.validated = true;
-							c.sendValid();
-							c.guest = true;
-							c.username = user;
-							c.spawnIn();
-							System.out.println(user + " Connected");
+							c.validate(true, user);
+							System.out.println("Guest \"" + user
+									+ "\" connected from \"" + conn.getRemoteSocketAddress() + "\"");
 							return;
 						}
 					}
@@ -52,11 +49,10 @@ public class Program extends WebSocketServer {
 			synchronized (clients) {
 				for (Client c : clients) {
 					if (c.connection.equals(conn)) {
-
 						if (Resources.isValidUser(user, pass)) {
-							c.validated = true;
-							c.username = user;
-							c.spawnIn();
+							c.validate(false, user);
+							System.out.println(user
+									+ "\" connected from \"" + conn.getRemoteSocketAddress() + "\"");
 							return;
 						} else {
 							c.kick("Invalid username or password");
