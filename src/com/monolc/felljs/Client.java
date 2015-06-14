@@ -52,9 +52,12 @@ public class Client {
 			System.out.println("invalid input.");
 			return;
 		}
-		msg = msg.replace("keys:", "");
-		for (int i = 0; i < msg.length() && i < isKeyDown.length; i++) {
-			isKeyDown[i] = msg.charAt(i) == '1';
+		
+		JSONObject parsedMsg = new JSONObject(msg);
+		if (parsedMsg.has("keys") && parsedMsg.keys.length == 256) {
+			isKeyDown = parsedMsg.keys
+		} else {
+			System.out.println("The keys array went wrong somewhere (lines 56-59)");
 		}
 	}
 	public void update(double dt, ArrayList<Client> clients) {

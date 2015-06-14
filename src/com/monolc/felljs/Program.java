@@ -7,6 +7,7 @@ import java.util.Random;
 import org.java_websocket.*;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
+import org.json.simple.JSONObject;
 
 import com.monolc.felljs.res.Resources;
 import com.monolc.felljs.world.Level;
@@ -27,10 +28,10 @@ public class Program extends WebSocketServer {
 	}
 	@Override
 	public void onMessage(WebSocket conn, String message) {
-		if (message.startsWith("login:")) {
-			String login = message.replace("login:", "");
-			String user = login.substring(0, login.indexOf(","));
-			String pass = login.substring(login.indexOf(",") + 1);
+		JSONObject parsedMessage = new JSONObject(message);
+		if (parsedMessage.has("login")) {
+			String user = parsedMessage.user;
+			String pass = parsedMessage.pass;
 			if (pass.length() == 0) {
 				synchronized (clients) {
 					for (Client c : clients) {
