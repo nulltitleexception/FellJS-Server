@@ -1,7 +1,5 @@
 package com.monolc.felljs.world;
 
-import java.util.ArrayList;
-
 import org.json.simple.JSONObject;
 
 import com.monolc.felljs.Client;
@@ -16,7 +14,8 @@ public class Entity {
 	public String name = null;
 	public int health;
 	public Level level;
-	public Client client = null;//only if this is a player. (otherwise this will remain null)
+	public Client client = null;// only if this is a player. (otherwise this
+								// will remain null)
 
 	public Entity(Level w, Rect2D b, String c, String n, int h) {
 		vel = new Vector2D();
@@ -44,25 +43,37 @@ public class Entity {
 	public void move(double vx, double vy) {
 		double muFactor = 0.9;
 		vel = vel.mult(muFactor).add((new Vector2D(vx, vy)).mult(1 - muFactor));
-		if (checkCollisions(level.entities)) {
+		if (checkCollisions(level)) {
 			System.out.println("LOGIC ERROR!");
 		}
 		box.x += vel.X();
 		box.y += vel.Y();
-		fixCollisions(level.entities);
+		fixCollisions(level);
 	}
 
-	public boolean checkCollisions(ArrayList<Entity> entities) {
-		for (Entity e : entities) {
+	public boolean checkCollisions(Level l) {
+		for (Entity e : l.entities) {
 			if (id != e.id && box.intersects(e.box)) {
 				return true;
+			}
+		}
+		Rect2D tileBox = new Rect2D(0, 0, Level.TILE_SIZE, Level.TILE_SIZE);
+		for (int a = 0; a < l.tiles.length; a++) {
+			for (int b = 0; b < l.tiles[0].length; b++) {
+				if (!l.tiles[a][b].passable) {
+					tileBox.x = a * Level.TILE_SIZE;
+					tileBox.y = b * Level.TILE_SIZE;
+					if (box.intersects(tileBox)) {
+						return true;
+					}
+				}
 			}
 		}
 		return false;
 	}
 
-	public boolean fixCollisions(ArrayList<Entity> entities) {
-		for (Entity e : entities) {
+	public void fixCollisions(Level l) {
+		for (Entity e : l.entities) {
 			if (id != e.id && box.intersects(e.box)) {
 				Rect2D intrsct = box.getIntersect(e.box);
 				if (intrsct.w < intrsct.h) {
@@ -80,7 +91,31 @@ public class Entity {
 				}
 			}
 		}
-		return false;
+		Rect2D tileBox = new Rect2D(0, 0, Level.TILE_SIZE, Level.TILE_SIZE);
+		for (int a = 0; a < l.tiles.length; a++) {
+			for (int b = 0; b < l.tiles[0].length; b++) {
+				if (!l.tiles[a][b].passable) {
+					tileBox.x = a * Level.TILE_SIZE;
+					tileBox.y = b * Level.TILE_SIZE;
+					if (box.intersects(tileBox)) {
+						Rect2D intrsct = box.getIntersect(tileBox);
+						if (intrsct.w < intrsct.h) {
+							if (box.x < tileBox.x) {
+								box.x -= intrsct.w;
+							} else {
+								box.x += intrsct.w;
+							}
+						} else {
+							if (box.y < tileBox.y) {
+								box.y -= intrsct.h;
+							} else {
+								box.y += intrsct.h;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void remove() {

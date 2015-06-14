@@ -6,15 +6,16 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Level {
+	public static final int TILE_SIZE = 32;
 	public ArrayList<Entity> entities;
 	public Tile[][] tiles;
-
 	Level(int w, int h) {
 		Random r = new Random();
 		tiles = new Tile[w][h];
 		for (int a = 0; a < tiles.length; a++) {
 			for (int b = 0; b < tiles[0].length; b++) {
-				tiles[a][b] = new Tile(r.nextInt(3), true);
+				int id = r.nextInt(4);
+				tiles[a][b] = new Tile(id, id != 0);
 			}
 		}
 		entities = new ArrayList<Entity>();
