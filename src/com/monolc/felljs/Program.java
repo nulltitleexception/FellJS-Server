@@ -57,10 +57,9 @@ public class Program extends WebSocketServer {
 				}
 			}
 			return;
-		} else if (message.startsWith("add:")) {
-			String add = message.replace("add:", "");
-			String user = add.substring(0, add.indexOf(","));
-			String pass = add.substring(add.indexOf(",") + 1);
+		} else if (parsedMessage.has("add")) {
+			String user = parsedMessage.add.user;
+			String pass = parsedMessage.add.pass;
 			if (!Resources.addUser(user, pass)) {
 				conn.close(0);
 			} else {
