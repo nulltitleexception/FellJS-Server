@@ -15,6 +15,9 @@ public class Level {
 		for (int a = 0; a < tiles.length; a++) {
 			for (int b = 0; b < tiles[0].length; b++) {
 				int id = r.nextInt(4);
+				if (a < 5 && b < 5) {
+					id = r.nextInt(3) + 1;
+				}
 				tiles[a][b] = new Tile(id, id != 0);
 			}
 		}
