@@ -48,16 +48,13 @@ public class Client {
 		e.client = this;
 	}
 	public void handleInput(String msg) {
-		if (!msg.startsWith("keys:")) {
+		JSONObject parsedMsg = new JSONObject(msg);
+
+		if (!parsedMsg.has("keys") || parsedMsg.keys.length != 256)) { //Since we're constructing it locally, we should make sure it is the right size
 			System.out.println("invalid input.");
 			return;
-		}
-		
-		JSONObject parsedMsg = new JSONObject(msg);
-		if (parsedMsg.has("keys") && parsedMsg.keys.length == 256) {
-			isKeyDown = parsedMsg.keys
 		} else {
-			System.out.println("The keys array went wrong somewhere (lines 56-59)");
+			isKeyDown = parsedMsg.keys;
 		}
 	}
 	public void update(double dt, ArrayList<Client> clients) {
