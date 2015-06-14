@@ -48,6 +48,9 @@ public class Entity {
 		fixCollisions(level);
 	}
 	public boolean checkCollisions(Level l) {
+		if (box.x < 0 || box.y < 0 || box.x + box.w > l.tiles.length * Level.TILE_SIZE || box.y + box.h > l.tiles[0].length * Level.TILE_SIZE) {
+			return true;
+		}
 		for (Entity e : l.entities) {
 			if (id != e.id && box.intersects(e.box)) {
 				return true;
@@ -68,6 +71,18 @@ public class Entity {
 		return false;
 	}
 	public void fixCollisions(Level l) {
+		if (box.x < 0) {
+			box.x = 0;
+		}
+		if (box.y < 0) {
+			box.y = 0;
+		}
+		if (box.x + box.w > l.tiles.length * Level.TILE_SIZE) {
+			box.x = (l.tiles.length * Level.TILE_SIZE) - box.w;
+		}
+		if (box.y + box.h > l.tiles[0].length * Level.TILE_SIZE) {
+			box.y = (l.tiles[0].length * Level.TILE_SIZE) - box.h;
+		}
 		for (Entity e : l.entities) {
 			if (id != e.id && box.intersects(e.box)) {
 				Rect2D intrsct = box.getIntersect(e.box);
