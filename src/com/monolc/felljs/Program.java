@@ -30,8 +30,8 @@ public class Program extends WebSocketServer {
 	public void onMessage(WebSocket conn, String message) {
 		JSONObject parsedMessage = new JSONObject(message);
 		if (parsedMessage.has("login")) {
-			String user = parsedMessage.user;
-			String pass = parsedMessage.pass;
+			String user = parsedMessage.login.user;
+			String pass = parsedMessage.login.pass;
 			if (pass.length() == 0) {
 				synchronized (clients) {
 					for (Client c : clients) {
