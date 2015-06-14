@@ -30,6 +30,11 @@ public class Client {
 		connection.send(send.toJSONString());
 		connection.close(0);
 	}
+	public void errNoKick(String s) {
+		JSONObject send = new JSONObject();
+		send.put("error", s);
+		connection.send(send.toJSONString());
+	}
 	@SuppressWarnings("unchecked")
 	public void validate(boolean isGuest, String user) {
 		username = user;
