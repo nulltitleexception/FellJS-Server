@@ -59,6 +59,7 @@ public class Client {
 	}
 	public void update(double dt, ArrayList<Client> clients) {
 		double speed = 300 * dt;
+		double sqrt2 = Math.sqrt(2.0);
 		double ymod = 0;
 		double xmod = 0;
 		boolean xmove = false;
@@ -80,8 +81,8 @@ public class Client {
 			xmove = !xmove;
 		}
 		if (xmove && ymove) {
-			xmod /= Math.sqrt(2.0);
-			ymod /= Math.sqrt(2.0);
+			xmod /= sqrt2;
+			ymod /= sqrt2;
 		}
 		e.move(xmod, ymod);
 	}
