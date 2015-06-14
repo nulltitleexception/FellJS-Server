@@ -13,21 +13,18 @@ import com.monolc.felljs.world.Level;
 import com.monolc.felljs.world.LevelGenerator;
 
 public class Program extends WebSocketServer {
-	public ArrayList<Client> clients = new ArrayList<Client>();
-	public Level level;
-
+	public ArrayList<Client>	clients	= new ArrayList<Client>();
+	public Level				level;
 	public Program() {
 		super(new InetSocketAddress(38734));
 		level = LevelGenerator.createDungeonLevel(new Random(), 100, 100);
 	}
-
 	@Override
 	public void onOpen(WebSocket conn, ClientHandshake handshake) {
 		synchronized (clients) {
 			clients.add(new Client(this, conn));
 		}
 	}
-
 	@Override
 	public void onMessage(WebSocket conn, String message) {
 		if (message.startsWith("login:")) {
@@ -39,8 +36,7 @@ public class Program extends WebSocketServer {
 					for (Client c : clients) {
 						if (c.connection.equals(conn)) {
 							c.validate(true, user);
-							System.out.println("Guest \"" + user
-									+ "\" connected from \"" + conn.getRemoteSocketAddress() + "\"");
+							System.out.println("Guest \"" + user + "\" connected from \"" + conn.getRemoteSocketAddress() + "\"");
 							return;
 						}
 					}
@@ -51,8 +47,7 @@ public class Program extends WebSocketServer {
 					if (c.connection.equals(conn)) {
 						if (Resources.isValidUser(user, pass)) {
 							c.validate(false, user);
-							System.out.println(user
-									+ "\" connected from \"" + conn.getRemoteSocketAddress() + "\"");
+							System.out.println(user + "\" connected from \"" + conn.getRemoteSocketAddress() + "\"");
 							return;
 						} else {
 							c.kick("Invalid username or password");
@@ -80,7 +75,6 @@ public class Program extends WebSocketServer {
 			}
 		}
 	}
-
 	@Override
 	public void onClose(WebSocket conn, int code, String reason, boolean remote) {
 		synchronized (clients) {
@@ -88,19 +82,16 @@ public class Program extends WebSocketServer {
 			for (int i = 0; i < clients.size() && cont; i++) {
 				if (clients.get(i).connection.equals(conn)) {
 					clients.get(i).e.remove();
-					System.out.println(clients.remove(i).username
-							+ " disconected");
+					System.out.println(clients.remove(i).username + " disconected");
 					cont = false;
 				}
 			}
 		}
 	}
-
 	@Override
 	public void onError(WebSocket conn, Exception exc) {
 		System.out.println("Error: " + exc.getMessage());
 	}
-
 	public static void main(String[] args) {
 		Program server = new Program();
 		server.start();
@@ -110,8 +101,7 @@ public class Program extends WebSocketServer {
 			long dt = System.nanoTime() - (frameTime + startTime);
 			if (dt > 100000000.0) {
 				if (dt > 1000000000.0) {
-					System.out
-							.println("SIGNIFICANT LAG DETECTED! SERVER FPS < 1");
+					System.out.println("SIGNIFICANT LAG DETECTED! SERVER FPS < 1");
 				} else {
 					System.out.println("lag detected: fps < 10");
 				}

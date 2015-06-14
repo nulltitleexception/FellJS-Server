@@ -7,16 +7,15 @@ import com.monolc.felljs.physics.Rect2D;
 import com.monolc.felljs.physics.Vector2D;
 
 public class Entity {
-	int id = -1;
-	public Rect2D box;
-	public Vector2D vel;
-	public String color = null;
-	public String name = null;
-	public int health;
-	public Level level;
-	public Client client = null;// only if this is a player. (otherwise this
-								// will remain null)
-
+	int				id		= -1;
+	public Rect2D	box;
+	public Vector2D	vel;
+	public String	color	= null;
+	public String	name	= null;
+	public int		health;
+	public Level	level;
+	public Client	client	= null; // only if this is a player. (otherwise this
+									// will remain null)
 	public Entity(Level w, Rect2D b, String c, String n, int h) {
 		vel = new Vector2D();
 		level = w;
@@ -26,7 +25,6 @@ public class Entity {
 		name = n;
 		level.addEntity(this);
 	}
-
 	@SuppressWarnings("unchecked")
 	public JSONObject toJSON() {
 		JSONObject ret = new JSONObject();
@@ -39,7 +37,6 @@ public class Entity {
 		ret.put("health", new Integer(health));
 		return ret;
 	}
-
 	public void move(double vx, double vy) {
 		double muFactor = 0.9;
 		vel = vel.mult(muFactor).add((new Vector2D(vx, vy)).mult(1 - muFactor));
@@ -50,7 +47,6 @@ public class Entity {
 		box.y += vel.Y();
 		fixCollisions(level);
 	}
-
 	public boolean checkCollisions(Level l) {
 		for (Entity e : l.entities) {
 			if (id != e.id && box.intersects(e.box)) {
@@ -58,8 +54,8 @@ public class Entity {
 			}
 		}
 		Rect2D tileBox = new Rect2D(0, 0, Level.TILE_SIZE, Level.TILE_SIZE);
-		for (int a = 0; a < l.tiles.length; a++) {
-			for (int b = 0; b < l.tiles[0].length; b++) {
+		for (int a = (int) Math.max(box.x / Level.TILE_SIZE, 0.1); a < (int) Math.min((box.x + box.w + 1) / Level.TILE_SIZE, l.tiles.length + 0.1); a++) {
+			for (int b = (int) Math.max((box.y - 1) / Level.TILE_SIZE, 0.1); b < (int) Math.min((box.y + box.h + 1) / Level.TILE_SIZE, l.tiles[0].length + 0.1); b++) {
 				if (!l.tiles[a][b].passable) {
 					tileBox.x = a * Level.TILE_SIZE;
 					tileBox.y = b * Level.TILE_SIZE;
@@ -71,7 +67,6 @@ public class Entity {
 		}
 		return false;
 	}
-
 	public void fixCollisions(Level l) {
 		for (Entity e : l.entities) {
 			if (id != e.id && box.intersects(e.box)) {
@@ -117,7 +112,6 @@ public class Entity {
 			}
 		}
 	}
-
 	public void remove() {
 		level.removeEntity(this);
 	}

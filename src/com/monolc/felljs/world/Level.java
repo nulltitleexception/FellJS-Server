@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Level {
-	public static final int TILE_SIZE = 32;
-	public ArrayList<Entity> entities;
-	public Tile[][] tiles;
+	public static final int		TILE_SIZE	= 32;
+	public ArrayList<Entity>	entities;
+	public Tile[][]				tiles;
 	Level(int w, int h) {
 		Random r = new Random();
 		tiles = new Tile[w][h];
@@ -20,7 +20,6 @@ public class Level {
 		}
 		entities = new ArrayList<Entity>();
 	}
-
 	@SuppressWarnings("unchecked")
 	public synchronized JSONObject toJSONDynamic() {
 		JSONObject ret = new JSONObject();
@@ -32,7 +31,6 @@ public class Level {
 		ret.put("entities", arr);
 		return ret;
 	}
-
 	@SuppressWarnings("unchecked")
 	public synchronized JSONObject toJSONStatic() {
 		JSONObject ret = new JSONObject();
@@ -49,26 +47,22 @@ public class Level {
 		ret.put("tiles", arr);
 		return ret;
 	}
-
 	public synchronized void addEntity(Entity e) {
 		entities.add(e);
 		e.id = entities.size() - 1;
 	}
-
 	public synchronized Entity removeEntity(Entity e) {
 		Entity ret = entities.remove(e.id);
 		ret.id = -1;
 		reassignEntityIDs();
 		return ret;
 	}
-
 	public synchronized Entity removeEntity(int e) {
 		Entity ret = entities.remove(e);
 		ret.id = -1;
 		reassignEntityIDs();
 		return ret;
 	}
-
 	public synchronized void reassignEntityIDs() {
 		for (int i = 0; i < entities.size(); i++) {
 			entities.get(i).id = i;
