@@ -30,9 +30,9 @@ public class Client {
 		connection.send(send.toJSONString());
 		connection.close(0);
 	}
-	public void errNoKick(String s) {
+	public void errNoKick(Int code) {
 		JSONObject send = new JSONObject();
-		send.put("error", s);
+		send.put("error", code);
 		connection.send(send.toJSONString());
 	}
 	@SuppressWarnings("unchecked")
