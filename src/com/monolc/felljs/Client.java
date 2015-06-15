@@ -57,8 +57,8 @@ public class Client {
 	}
 	public void handleInput(String msg) {
 		JSONObject parsedMsg = (JSONObject) JSONValue.parse(msg);
-		if (!parsedMsg.containsKey("keys") || ((JSONArray) parsedMsg.get("keys")).size() != 256) { //Since we're constructing it locally, we should make sure it is the right size
-			System.out.println("invalid input.");
+		if (!parsedMsg.containsKey("keys")) {
+			System.out.println("invalid input: \"" + msg + "\"");
 			return;
 		} else {
 			for (int i = 0; i < 256; i++) {
