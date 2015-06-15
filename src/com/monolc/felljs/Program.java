@@ -104,8 +104,7 @@ public class Program extends WebSocketServer {
 			long dt = System.nanoTime() - (frameTime + startTime);
 			if (dt > 100000000.0) {
 				if (dt > 1000000000.0) {
-					System.out.println("SIGNIFICANT LAG DETECTED! SERVER FPS < 1"); // VERY
-																					// CAPS
+					System.out.println("SIGNIFICANT LAG DETECTED! SERVER FPS < 1"); // VERY CAPS
 				} else {
 					System.out.println("lag detected: fps < 10");
 				}
