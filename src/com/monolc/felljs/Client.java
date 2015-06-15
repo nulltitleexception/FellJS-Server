@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import org.java_websocket.*;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import com.monolc.felljs.physics.Rect2D;
 import com.monolc.felljs.world.Entity;
@@ -30,7 +32,8 @@ public class Client {
 		connection.send(send.toJSONString());
 		connection.close(0);
 	}
-	public void errNoKick(Int code) {
+	@SuppressWarnings("unchecked")
+	public void errNoKick(int code) {
 		JSONObject send = new JSONObject();
 		send.put("err", code);
 		connection.send(send.toJSONString());
@@ -53,13 +56,14 @@ public class Client {
 		e.client = this;
 	}
 	public void handleInput(String msg) {
-		JSONObject parsedMsg = new JSONObject(msg);
-
-		if (!parsedMsg.has("keys") || parsedMsg.keys.length != 256)) { //Since we're constructing it locally, we should make sure it is the right size
+		JSONObject parsedMsg = (JSONObject) JSONValue.parse(msg);
+		if (!parsedMsg.containsKey("keys") || ((JSONArray) parsedMsg.get("keys")).size() != 256) { //Since we're constructing it locally, we should make sure it is the right size
 			System.out.println("invalid input.");
 			return;
 		} else {
-			isKeyDown = parsedMsg.keys;
+			for (int i = 0; i < 256; i++) {
+				isKeyDown[i] = ((Boolean) ((JSONArray) parsedMsg.get("keys")).toArray()[i]).booleanValue();
+			}
 		}
 	}
 	public void update(double dt, ArrayList<Client> clients) {
