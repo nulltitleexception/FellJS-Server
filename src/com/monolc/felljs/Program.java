@@ -50,7 +50,7 @@ public class Program extends WebSocketServer {
 							System.out.println(user + "\" connected from \"" + conn.getRemoteSocketAddress() + "\"");
 							return;
 						} else {
-							c.kick("Invalid username or password");
+							c.errNoKick(100);
 						}
 					}
 				}
