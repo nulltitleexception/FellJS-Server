@@ -7,6 +7,7 @@ import java.util.Random;
 import org.java_websocket.*;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
+import org.json.simple.JSONObject;
 
 import com.monolc.felljs.res.Resources;
 import com.monolc.felljs.world.Level;
@@ -27,10 +28,10 @@ public class Program extends WebSocketServer {
 	}
 	@Override
 	public void onMessage(WebSocket conn, String message) {
-		if (message.startsWith("login:")) {
-			String login = message.replace("login:", "");
-			String user = login.substring(0, login.indexOf(","));
-			String pass = login.substring(login.indexOf(",") + 1);
+		JSONObject parsedMessage = new JSONObject(message);
+		if (parsedMessage.has("login")) {
+			String user = parsedMessage.login.user;
+			String pass = parsedMessage.login.pass;
 			if (pass.length() == 0) {
 				synchronized (clients) {
 					for (Client c : clients) {
@@ -56,10 +57,9 @@ public class Program extends WebSocketServer {
 				}
 			}
 			return;
-		} else if (message.startsWith("add:")) {
-			String add = message.replace("add:", "");
-			String user = add.substring(0, add.indexOf(","));
-			String pass = add.substring(add.indexOf(",") + 1);
+		} else if (parsedMessage.has("add")) {
+			String user = parsedMessage.add.user;
+			String pass = parsedMessage.add.pass;
 			if (!Resources.addUser(user, pass)) {
 				conn.close(0);
 			} else {
@@ -101,7 +101,7 @@ public class Program extends WebSocketServer {
 			long dt = System.nanoTime() - (frameTime + startTime);
 			if (dt > 100000000.0) {
 				if (dt > 1000000000.0) {
-					System.out.println("SIGNIFICANT LAG DETECTED! SERVER FPS < 1");
+					System.out.println("SIGNIFICANT LAG DETECTED! SERVER FPS < 1"); //VERY CAPS
 				} else {
 					System.out.println("lag detected: fps < 10");
 				}
