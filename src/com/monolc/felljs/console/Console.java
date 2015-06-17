@@ -27,7 +27,6 @@ public class Console {
 				e.printStackTrace();
 			}
 		}
-		println(pass);
 	}
 	public static void println(String msg) {
 		boolean error = false;

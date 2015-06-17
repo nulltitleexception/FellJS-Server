@@ -160,6 +160,7 @@ public class Program extends WebSocketServer {
 			rc.start();
 			return;
 		}
+		Console.init();
 		Program server = new Program();
 		server.start();
 		long startTime = System.nanoTime();
