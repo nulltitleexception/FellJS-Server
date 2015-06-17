@@ -47,7 +47,6 @@ public class Program extends WebSocketServer {
 					}
 				}
 			} else {
-				conn.send("INVALID PASSWORD!");
 				conn.close(1000);
 			}
 			return;
