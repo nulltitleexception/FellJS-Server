@@ -14,8 +14,7 @@ public class Console {
 		FileReader fr = null;
 		BufferedReader br = null;
 		try {
-			System.out.println("Working Directory = " + System.getProperty("user.dir"));
-			fr = new FileReader("consoleadmin.pass");
+			fr = new FileReader("/var/java/consoleadmin.pass");
 			br = new BufferedReader(fr);
 			pass = br.readLine();
 		} catch (Exception e) {
