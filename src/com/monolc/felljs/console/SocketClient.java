@@ -9,13 +9,22 @@ import org.java_websocket.handshake.ServerHandshake;
 
 public class SocketClient extends WebSocketClient {
 	RemoteConsole	rc;
+	String			fMsg	= null;
 	public SocketClient(RemoteConsole r, String address) throws URISyntaxException {
 		super(new URI(address), new Draft_10());
 		rc = r;
 	}
+	public SocketClient(RemoteConsole r, String address, String firstMsg) throws URISyntaxException {
+		super(new URI(address), new Draft_10());
+		rc = r;
+		fMsg = firstMsg;
+	}
 	@Override
 	public void onOpen(ServerHandshake handshakedata) {
 		System.out.println("Connected.");
+		if (fMsg != null) {
+			send(fMsg);
+		}
 	}
 	@Override
 	public void onClose(int code, String reason, boolean remote) {

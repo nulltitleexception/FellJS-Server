@@ -30,8 +30,11 @@ public class Console {
 	}
 	public static void println(String msg) {
 		System.out.println(msg);
-		for (Client c : clients) {
-			c.connection.send(msg);
+		for (int i = 0; i < clients.size(); i++) {
+			while (clients.get(i) == null || clients.get(i).connection == null || clients.get(i).connection.isClosed()) {
+				clients.remove(i);
+			}
+			clients.get(i).connection.send(msg);
 		}
 	}
 	public static boolean validatePass(String p) {

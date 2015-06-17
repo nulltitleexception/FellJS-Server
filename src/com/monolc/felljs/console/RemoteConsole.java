@@ -23,12 +23,11 @@ public class RemoteConsole {
 			ip = "ws://167.88.120.57:38734";
 		}
 		try {
-			ws = new SocketClient(this, ip);
+			ws = new SocketClient(this, ip, "rc:" + pass);
 		} catch (URISyntaxException e1) {
 			e1.printStackTrace();
 		}
 		ws.connect();
-		ws.send("rc:" + pass);
 		while (true) {
 			String rec = getNextMessage();
 			while (rec != null) {
