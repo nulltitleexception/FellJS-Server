@@ -49,6 +49,18 @@ public class Program extends WebSocketServer {
 					}
 				}
 			} else {
+				synchronized (clients) {
+					boolean cont = true;
+					for (int i = 0; i < clients.size() && cont; i++) {
+						if (clients.get(i).connection.equals(conn)) {
+							if (clients.get(i).e != null) {
+								clients.get(i).e.remove();
+							}
+							Console.println(clients.remove(i).connection.getRemoteSocketAddress() + " failed to connect as a remote console. (Invalid login)");
+							cont = false;
+						}
+					}
+				}
 				conn.close(1000);
 			}
 			return;
