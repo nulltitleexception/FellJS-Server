@@ -9,6 +9,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+import com.monolc.felljs.console.Console;
 import com.monolc.felljs.physics.Rect2D;
 import com.monolc.felljs.world.Entity;
 
@@ -58,7 +59,7 @@ public class Client {
 	public void handleInput(String msg) {
 		JSONObject parsedMsg = (JSONObject) JSONValue.parse(msg);
 		if (!parsedMsg.containsKey("keys") || ((JSONArray) parsedMsg.get("keys")).size() != 256) {
-			System.out.println("invalid input: \"" + msg + "\"");
+			Console.println("invalid input: \"" + msg + "\"");
 			return;
 		} else {
 			for (int i = 0; i < 256; i++) {

@@ -3,6 +3,7 @@ package com.monolc.felljs.world;
 import org.json.simple.JSONObject;
 
 import com.monolc.felljs.Client;
+import com.monolc.felljs.console.Console;
 import com.monolc.felljs.physics.Rect2D;
 import com.monolc.felljs.physics.Vector2D;
 
@@ -41,7 +42,7 @@ public class Entity {
 		double muFactor = 0.9;
 		vel = vel.mult(muFactor).add((new Vector2D(vx, vy)).mult(1 - muFactor));
 		if (checkCollisions(level)) {
-			System.out.println("LOGIC ERROR!");
+			Console.println("LOGIC ERROR!");
 		}
 		box.x += vel.X();
 		box.y += vel.Y();

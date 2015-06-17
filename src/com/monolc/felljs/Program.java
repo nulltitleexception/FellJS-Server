@@ -1,6 +1,7 @@
 package com.monolc.felljs;
 
 import java.net.InetSocketAddress;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -10,6 +11,8 @@ import org.java_websocket.server.WebSocketServer;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+import com.monolc.felljs.console.Console;
+import com.monolc.felljs.console.RemoteConsole;
 import com.monolc.felljs.res.Resources;
 import com.monolc.felljs.world.Level;
 import com.monolc.felljs.world.LevelGenerator;
@@ -29,6 +32,26 @@ public class Program extends WebSocketServer {
 	}
 	@Override
 	public void onMessage(WebSocket conn, String message) {
+		if (message.startsWith("rc")) {
+			String pass = message.substring(message.indexOf(':') + 1);
+			if (Console.validatePass(pass)) {
+				synchronized (clients) {
+					boolean cont = true;
+					for (int i = 0; i < clients.size() && cont; i++) {
+						if (clients.get(i).connection.equals(conn)) {
+							clients.get(i).e.remove();
+							Console.clients.add(clients.get(i));
+							Console.println(clients.remove(i).connection.getRemoteSocketAddress() + " is now a remote console.");
+							cont = false;
+						}
+					}
+				}
+			} else {
+				conn.send("INVALID PASSWORD!");
+				conn.close(1000);
+			}
+			return;
+		}
 		JSONObject parsedMessage = (JSONObject) JSONValue.parse(message);
 		if (parsedMessage.containsKey("login")) {
 			JSONObject login = (JSONObject) parsedMessage.get("login");
@@ -39,7 +62,7 @@ public class Program extends WebSocketServer {
 					for (Client c : clients) {
 						if (c.connection.equals(conn)) {
 							c.validate(true, user);
-							System.out.println("Guest \"" + user + "\" connected from \"" + conn.getRemoteSocketAddress() + "\"");
+							Console.println("Guest \"" + user + "\" connected from \"" + conn.getRemoteSocketAddress() + "\"");
 							return;
 						}
 					}
@@ -50,7 +73,7 @@ public class Program extends WebSocketServer {
 					if (c.connection.equals(conn)) {
 						if (Resources.isValidUser(user, pass)) {
 							c.validate(false, user);
-							System.out.println(user + "\" connected from \"" + conn.getRemoteSocketAddress() + "\"");
+							Console.println(user + "\" connected from \"" + conn.getRemoteSocketAddress() + "\"");
 							return;
 						} else {
 							c.errNoKick(100);
@@ -85,7 +108,7 @@ public class Program extends WebSocketServer {
 			for (int i = 0; i < clients.size() && cont; i++) {
 				if (clients.get(i).connection.equals(conn)) {
 					clients.get(i).e.remove();
-					System.out.println(clients.remove(i).username + " disconected");
+					Console.println(clients.remove(i).username + " disconected");
 					cont = false;
 				}
 			}
@@ -93,9 +116,19 @@ public class Program extends WebSocketServer {
 	}
 	@Override
 	public void onError(WebSocket conn, Exception exc) {
-		System.out.println("Error: " + exc.getMessage());
+		Console.println("Error: " + exc.getMessage());
 	}
 	public static void main(String[] args) {
+		if (args.length >= 1 && args[0].equals("remoteconsole")) {
+			RemoteConsole rc = null;
+			try {
+				rc = new RemoteConsole();
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+			rc.start();
+			return;
+		}
 		Program server = new Program();
 		server.start();
 		long startTime = System.nanoTime();
@@ -104,9 +137,9 @@ public class Program extends WebSocketServer {
 			long dt = System.nanoTime() - (frameTime + startTime);
 			if (dt > 100000000.0) {
 				if (dt > 1000000000.0) {
-					System.out.println("SIGNIFICANT LAG DETECTED! SERVER FPS < 1"); // VERY CAPS
+					Console.println("SIGNIFICANT LAG DETECTED! SERVER FPS < 1"); // VERY CAPS
 				} else {
-					System.out.println("lag detected: fps < 10");
+					Console.println("lag detected: fps < 10");
 				}
 			}
 			frameTime += dt;
