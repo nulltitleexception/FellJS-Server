@@ -144,7 +144,7 @@ public class Program extends WebSocketServer {
 		for (int i = 0; i < exc.getStackTrace().length; i++) {
 			trace += exc.getStackTrace()[i].toString() + (i != exc.getStackTrace().length - 1 ? "\n" : "");
 		}
-		Console.println("Error: " + exc.getMessage() + ", " + trace);
+		Console.println("Error: " + exc.getMessage() + ",\n" + trace);
 	}
 	public static void main(String[] args) {
 		if (args.length >= 1 && args[0].equals("remoteconsole")) {
