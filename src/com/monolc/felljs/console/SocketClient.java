@@ -4,18 +4,17 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.drafts.Draft_10;
 import org.java_websocket.handshake.ServerHandshake;
 
 public class SocketClient extends WebSocketClient {
 	RemoteConsole	rc;
 	String			fMsg	= null;
 	public SocketClient(RemoteConsole r, String address) throws URISyntaxException {
-		super(new URI(address), new Draft_10());
+		super(new URI(address));
 		rc = r;
 	}
 	public SocketClient(RemoteConsole r, String address, String firstMsg) throws URISyntaxException {
-		super(new URI(address), new Draft_10());
+		super(new URI(address));
 		rc = r;
 		fMsg = firstMsg;
 	}
