@@ -39,7 +39,9 @@ public class Program extends WebSocketServer {
 					boolean cont = true;
 					for (int i = 0; i < clients.size() && cont; i++) {
 						if (clients.get(i).connection.equals(conn)) {
-							clients.get(i).e.remove();
+							if (clients.get(i).e != null) {
+								clients.get(i).e.remove();
+							}
 							Console.clients.add(clients.get(i));
 							Console.println(clients.remove(i).connection.getRemoteSocketAddress() + " is now a remote console.");
 							cont = false;
@@ -106,7 +108,9 @@ public class Program extends WebSocketServer {
 			boolean cont = true;
 			for (int i = 0; i < clients.size() && cont; i++) {
 				if (clients.get(i).connection.equals(conn)) {
-					clients.get(i).e.remove();
+					if (clients.get(i).e != null) {
+						clients.get(i).e.remove();
+					}
 					Console.println(clients.remove(i).username + " disconected");
 					cont = false;
 				}
