@@ -117,17 +117,26 @@ public class Program extends WebSocketServer {
 	@Override
 	public void onClose(WebSocket conn, int code, String reason, boolean remote) {
 		synchronized (clients) {
-			boolean cont = true;
-			for (int i = 0; i < clients.size() && cont; i++) {
+			for (int i = 0; i < clients.size(); i++) {
 				if (clients.get(i).connection.equals(conn)) {
 					if (clients.get(i).e != null) {
 						clients.get(i).e.remove();
 					}
-					Console.println(clients.remove(i).username + " disconected");
-					cont = false;
+					Console.println(clients.remove(i).username + " disconnected");
+					return;
 				}
 			}
 		}
+		for (int i = 0; i < Console.clients.size(); i++) {
+			if (Console.clients.get(i).connection.equals(conn)) {
+				if (Console.clients.get(i).e != null) {
+					Console.clients.get(i).e.remove();
+				}
+				Console.println(Console.clients.remove(i).connection.getRemoteSocketAddress() + " disconnected from the Remote Console");
+				return;
+			}
+		}
+		Console.println("Unknown Socket Closed!");
 	}
 	@Override
 	public void onError(WebSocket conn, Exception exc) {

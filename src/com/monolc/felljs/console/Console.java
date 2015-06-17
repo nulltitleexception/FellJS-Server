@@ -29,12 +29,17 @@ public class Console {
 		}
 	}
 	public static void println(String msg) {
+		boolean error = false;
 		System.out.println(msg);
 		for (int i = 0; i < clients.size(); i++) {
 			while (clients.get(i) == null || clients.get(i).connection == null || !clients.get(i).connection.isOpen()) {
 				clients.remove(i);
+				error = true;
 			}
 			clients.get(i).connection.send(msg);
+		}
+		if (error) {
+			Console.println("Console Error");
 		}
 	}
 	public static boolean validatePass(String p) {
