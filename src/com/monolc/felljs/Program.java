@@ -132,7 +132,7 @@ public class Program extends WebSocketServer {
 				if (Console.clients.get(i).e != null) {
 					Console.clients.get(i).e.remove();
 				}
-				Console.println(Console.clients.remove(i).connection.getRemoteSocketAddress() + " disconnected from the Remote Console");
+				Console.println("Client \"" + Console.clients.remove(i).connection.getRemoteSocketAddress() + "\" disconnected from the Remote Console");
 				return;
 			}
 		}

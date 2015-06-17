@@ -20,7 +20,6 @@ public class SocketClient extends WebSocketClient {
 	}
 	@Override
 	public void onOpen(ServerHandshake handshakedata) {
-		System.out.println("Connected.");
 		if (fMsg != null) {
 			send(fMsg);
 		}
