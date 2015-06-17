@@ -140,6 +140,9 @@ public class Program extends WebSocketServer {
 	}
 	@Override
 	public void onError(WebSocket conn, Exception exc) {
+		if (exc.getMessage().equals("Connection reset by peer")) {
+			return;
+		}
 		String trace = "";
 		for (int i = 0; i < exc.getStackTrace().length; i++) {
 			trace += exc.getStackTrace()[i].toString() + (i != exc.getStackTrace().length - 1 ? "\n" : "");
