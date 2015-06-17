@@ -115,7 +115,7 @@ public class Program extends WebSocketServer {
 	}
 	@Override
 	public void onError(WebSocket conn, Exception exc) {
-		Console.println("Error: " + exc.getMessage());
+		Console.println("Error: " + exc.getMessage() + ", " + exc.getStackTrace());
 	}
 	public static void main(String[] args) {
 		if (args.length >= 1 && args[0].equals("remoteconsole")) {

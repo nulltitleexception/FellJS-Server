@@ -31,7 +31,7 @@ public class Console {
 	public static void println(String msg) {
 		System.out.println(msg);
 		for (int i = 0; i < clients.size(); i++) {
-			while (clients.get(i) == null || clients.get(i).connection == null || clients.get(i).connection.isClosed()) {
+			while (clients.get(i) == null || clients.get(i).connection == null || !clients.get(i).connection.isOpen()) {
 				clients.remove(i);
 			}
 			clients.get(i).connection.send(msg);
