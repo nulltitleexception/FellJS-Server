@@ -9,7 +9,7 @@ public class Level {
 	public static final int		TILE_SIZE	= 32;
 	public ArrayList<Entity>	entities;
 	public Tile[][]				tiles;
-	Level(int w, int h) {
+	public Level(int w, int h) {
 		Random r = new Random();
 		tiles = new Tile[w][h];
 		for (int a = 0; a < tiles.length; a++) {
@@ -18,6 +18,17 @@ public class Level {
 				if (a < 5 && b < 5) {
 					id = r.nextInt(3) + 1;
 				}
+				tiles[a][b] = new Tile(id, id != 0);
+			}
+		}
+		entities = new ArrayList<Entity>();
+	}
+	public Level(int w, int h, String data) {
+		JSONArray tilesData = (JSONArray) JSONValue.parse(data);
+		tiles = new Tile[w][h];
+		for (int a = 0; a < tiles.length; a++) {
+			for (int b = 0; b < tiles[0].length; b++) {
+				int id = ((Long) ((JSONArray) tilesData.get(a)).get(b)).intValue();
 				tiles[a][b] = new Tile(id, id != 0);
 			}
 		}

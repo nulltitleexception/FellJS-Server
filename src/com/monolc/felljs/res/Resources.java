@@ -12,11 +12,18 @@ import java.util.HashMap;
 
 public class Resources {
 	private static HashMap<String, EntitySchematic>	entitySchematics	= new HashMap<String, EntitySchematic>();
+	private static HashMap<String, LevelGenerator>	levelGenerators	= new HashMap<String, LevelGenerator>();
 	public static EntitySchematic getEntitySchematic(String name) {
 		if (!entitySchematics.containsKey(name)) {
 			entitySchematics.put(name, new EntitySchematic(name));
 		}
 		return entitySchematics.get(name);
+	}
+	public static LevelGenerator getLevelGenerator(String name) {
+		if (!levelGenerators.containsKey(name)){
+			levelGenerators.put(name, new LevelGenerator(name));
+		}
+		return levelGenerators.get(name);
 	}
 	public static boolean addUser(String name, String pass) {
 		Path p = Paths.get(new File("").getAbsolutePath() + "/users/" + name + ".pass");

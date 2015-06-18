@@ -2,13 +2,12 @@ package com.monolc.felljs.console;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.monolc.felljs.Client;
 
 public class Console {
-	private static String			pass	= "asdf";
+	private static String			pass	= "invalid";
 	public static ArrayList<Client>	clients	= new ArrayList<Client>();
 	public static void init() {
 		FileReader fr = null;
@@ -18,13 +17,17 @@ public class Console {
 			br = new BufferedReader(fr);
 			pass = br.readLine();
 		} catch (Exception e) {
-			e.printStackTrace();
+			println("Error loading remote console password.");
 		} finally {
 			try {
-				fr.close();
-				br.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+				if (fr != null) {
+					fr.close();
+				}
+				if (br != null) {
+					br.close();
+				}
+			} catch (Exception e) {
+				println("Error closing file streams after loading remote console password.");
 			}
 		}
 	}
@@ -46,6 +49,6 @@ public class Console {
 		}
 	}
 	public static boolean validatePass(String p) {
-		return pass.equals(p);
+		return !pass.equals("invalid") && pass.equals(p);
 	}
 }

@@ -6,17 +6,19 @@ import com.monolc.felljs.Client;
 import com.monolc.felljs.console.Console;
 import com.monolc.felljs.physics.Rect2D;
 import com.monolc.felljs.physics.Vector2D;
+import com.monolc.felljs.res.Resources;
 
 public class Entity {
-	int				id		= -1;
-	public Rect2D	box;
-	public Vector2D	vel;
-	public String	color	= null;
-	public String	name	= null;
-	public Level	level;
-	public Client	client	= null; // only if this is a player. (otherwise this will remain null)
-	public EntityData data;
+	int					id		= -1;
+	public Rect2D		box;
+	public Vector2D		vel;
+	public String		color	= null;
+	public String		name	= null;
+	public Level		level;
+	public Client		client	= null; // only if this is a player. (otherwise this will remain null)
+	public EntityData	data;
 	public Entity(Level w, Rect2D b, String c, String n) {
+		data = new EntityData(Resources.getEntitySchematic("default"));
 		vel = new Vector2D();
 		level = w;
 		box = b;
