@@ -13,16 +13,14 @@ public class Entity {
 	public Vector2D	vel;
 	public String	color	= null;
 	public String	name	= null;
-	public int		health;
 	public Level	level;
-	public Client	client	= null; // only if this is a player. (otherwise this
-									// will remain null)
-	public Entity(Level w, Rect2D b, String c, String n, int h) {
+	public Client	client	= null; // only if this is a player. (otherwise this will remain null)
+	public EntityData data;
+	public Entity(Level w, Rect2D b, String c, String n) {
 		vel = new Vector2D();
 		level = w;
 		box = b;
 		color = c;
-		health = h;
 		name = n;
 		level.addEntity(this);
 	}
@@ -35,7 +33,7 @@ public class Entity {
 		ret.put("height", new Integer((int) box.h));
 		ret.put("color", color);
 		ret.put("name", (name != null ? name : "SERVER_ERROR"));
-		ret.put("health", new Integer(health));
+		ret.put("data", data.toJSON());
 		return ret;
 	}
 	public void move(double vx, double vy) {

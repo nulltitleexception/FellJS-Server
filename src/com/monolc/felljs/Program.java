@@ -150,6 +150,7 @@ public class Program extends WebSocketServer {
 		Console.println("Error: " + exc.getMessage() + ",\n" + trace);
 	}
 	public static void main(String[] args) {
+		Resources.getEntitySchematic("ogre");
 		if (args.length >= 1 && args[0].equals("remoteconsole")) {
 			RemoteConsole rc = null;
 			try {

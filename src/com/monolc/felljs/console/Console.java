@@ -36,7 +36,10 @@ public class Console {
 				clients.remove(i);
 				error = true;
 			}
-			clients.get(i).connection.send(msg);
+			if (clients.size() > i) {
+				clients.get(i).connection.send(msg);
+				clients.get(i).connection.send("");
+			}
 		}
 		if (error) {
 			Console.println("Console Error");

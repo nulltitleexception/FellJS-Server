@@ -8,20 +8,25 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 
 public class Resources {
+	private static HashMap<String, EntitySchematic>	entitySchematics	= new HashMap<String, EntitySchematic>();
+	public static EntitySchematic getEntitySchematic(String name) {
+		if (!entitySchematics.containsKey(name)) {
+			entitySchematics.put(name, new EntitySchematic(name));
+		}
+		return entitySchematics.get(name);
+	}
 	public static boolean addUser(String name, String pass) {
-		Path p = Paths.get(new File("").getAbsolutePath() + "/users/" + name
-				+ ".pass");
+		Path p = Paths.get(new File("").getAbsolutePath() + "/users/" + name + ".pass");
 		if (!Files.notExists(p)) {
 			return false;
 		}
 		Charset charset = Charset.forName("US-ASCII");
 		try {
-			if (!Files.exists(Paths.get(new File("").getAbsolutePath()
-					+ "/users"))) {
-				Files.createDirectory(Paths.get(new File("").getAbsolutePath()
-						+ "/users"));
+			if (!Files.exists(Paths.get(new File("").getAbsolutePath() + "/users"))) {
+				Files.createDirectory(Paths.get(new File("").getAbsolutePath() + "/users"));
 			}
 			Files.createFile(p);
 		} catch (IOException e1) {
@@ -36,10 +41,8 @@ public class Resources {
 		}
 		return true;
 	}
-
 	public static boolean isValidUser(String name, String pass) {
-		Path p = Paths.get(new File("").getAbsolutePath() + "/users/" + name
-				+ ".pass");
+		Path p = Paths.get(new File("").getAbsolutePath() + "/users/" + name + ".pass");
 		if (!Files.exists(p)) {
 			return false;
 		}

@@ -31,13 +31,10 @@ public class RemoteConsole {
 		while (true) {
 			String rec = getNextMessage();
 			while (rec != null) {
-				System.out.println(rec);
+				if (rec.length() > 0) {
+					System.out.println(rec);
+				}
 				rec = getNextMessage();
-			}
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
 			}
 		}
 	}
