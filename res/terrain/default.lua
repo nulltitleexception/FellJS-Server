@@ -8,9 +8,9 @@ for a=0,xLen,1 do
 	cols[a] = {}
 	for b=0,yLen,1 do
 		if ( a >= 5 or b >= 5 ) then
-			cols[a][b] = 1
+			cols[a][b] = math.random(0,3)
 		else
-			cols[a][b] = math.random(3)
+			cols[a][b] = 1
 		end
 	end
 end
