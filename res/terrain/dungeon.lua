@@ -23,6 +23,7 @@ function placeRoom()
 			end
 		end
 	end
+	print("ROOM SUCCESS")
 	for a=x,x+w,1 do
 		for b=y,y+h,1 do
 			cols[a][b] = x + (y * xLen);
