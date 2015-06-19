@@ -53,7 +53,7 @@ public class Client {
 		Random random = new Random();
 		Color C = Color.getHSBColor(random.nextFloat(), 0.9f, 0.9f);
 		String color = String.format("#%02X%02X%02X", C.getRed(), C.getGreen(), C.getBlue());
-		e = new Entity(server.level, new Rect2D(10, 10, 30, 30), color, username);
+		e = new Entity(server.level, new Rect2D(10, 10, 28, 28), color, username);
 		e.client = this;
 	}
 	public void handleInput(String msg) {
