@@ -1,7 +1,7 @@
 local arg = table.pack(...)
-cols={}
-xLen = (arg[1]-1) or 1
-yLen = (arg[2]-1) or 1
+local cols={}
+local xLen = (arg[1]-1) or 1
+local yLen = (arg[2]-1) or 1
 
 -- Heres where the generation happens (above is boilerplate)
 for a=0,xLen,1 do
@@ -16,7 +16,7 @@ for a=0,xLen,1 do
 end
 -- and everything after this is boilerplate
 
-retS = "["
+local retS = "["
 for a=0,xLen,1 do
 	retS = retS .. "["
 	for b=0,yLen,1 do
