@@ -26,7 +26,7 @@ function canBranch(x, y, dir)
 end
 
 function branch(x, y)
-	while(canBranch(1) || canBranch(2) || canBranch(3) || canBranch(4)) do
+	while(canBranch(1) or canBranch(2) or canBranch(3) or canBranch(4)) do
 		local dir = math.random(1,4)
 		if (canBranch(dir)) then
 			if (dir == 1) then
