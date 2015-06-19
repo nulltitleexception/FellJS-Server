@@ -30,7 +30,6 @@ function placeRoom()
 	end
 end
 
-print("ROOMS")
 for i=0,100,1 do
 	placeRoom()
 end
