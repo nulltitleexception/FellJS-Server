@@ -12,6 +12,7 @@ public class Entity {
 	int					id		= -1;
 	public Rect2D		box;
 	public Vector2D		vel;
+	public double		angle;
 	public String		color	= null;
 	public String		name	= null;
 	public Level		level;
@@ -20,6 +21,7 @@ public class Entity {
 	public Entity(Level w, Rect2D b, String c, String n) {
 		data = new EntityData(Resources.getEntitySchematic("default"));
 		vel = new Vector2D();
+		angle = 0;
 		level = w;
 		box = b;
 		color = c;
@@ -31,6 +33,7 @@ public class Entity {
 		JSONObject ret = new JSONObject();
 		ret.put("x", new Integer((int) (box.x + 0.5)));
 		ret.put("y", new Integer((int) (box.y + 0.5)));
+		ret.put("angle", new Double(angle));
 		ret.put("width", new Integer((int) (box.w + 0.5)));
 		ret.put("height", new Integer((int) (box.h + 0.5)));
 		ret.put("color", color);

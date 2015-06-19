@@ -21,6 +21,8 @@ public class Client {
 	public boolean		needsNewLevelStaticData	= true;
 	public String		username				= null;
 	boolean[]			isKeyDown				= new boolean[256];
+	int					mx						= 0;
+	int					my						= 0;
 	Entity				e;
 	public Client(Program s, WebSocket conn) {
 		server = s;
@@ -64,6 +66,11 @@ public class Client {
 		} else {
 			for (int i = 0; i < 256; i++) {
 				isKeyDown[i] = ((Boolean) ((JSONArray) parsedMsg.get("keys")).toArray()[i]).booleanValue();
+			}
+			if (parsedMsg.containsKey("mouse")) {
+				mx = (Integer) ((JSONObject) parsedMsg.get("mouse")).get("x");
+				my = (Integer) ((JSONObject) parsedMsg.get("mouse")).get("x");
+				e.angle = (Double) ((JSONObject) parsedMsg.get("mouse")).get("x");
 			}
 		}
 	}
