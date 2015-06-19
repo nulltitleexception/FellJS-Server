@@ -41,7 +41,7 @@ public class Console {
 			}
 			if (clients.size() > i) {
 				clients.get(i).connection.send(msg);
-				clients.get(i).connection.send("");
+				clients.get(i).connection.send("ignoreme");
 			}
 		}
 		if (error) {

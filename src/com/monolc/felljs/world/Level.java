@@ -37,7 +37,7 @@ public class Level {
 	@SuppressWarnings("unchecked")
 	public synchronized JSONObject toJSONDynamic() {
 		JSONObject ret = new JSONObject();
-		ret.put("enum", new Integer((int) entities.size()));
+		ret.put("enum", new Integer(entities.size()));
 		JSONArray arr = new JSONArray();
 		for (int i = 0; i < entities.size(); i++) {
 			arr.add(entities.get(i).toJSON());
@@ -48,8 +48,8 @@ public class Level {
 	@SuppressWarnings("unchecked")
 	public synchronized JSONObject toJSONStatic() {
 		JSONObject ret = new JSONObject();
-		ret.put("width", new Integer((int) tiles.length));
-		ret.put("height", new Integer((int) tiles[0].length));
+		ret.put("width", new Integer(tiles.length));
+		ret.put("height", new Integer(tiles[0].length));
 		JSONArray arr = new JSONArray();
 		for (int a = 0; a < tiles.length; a++) {
 			JSONArray col = new JSONArray();

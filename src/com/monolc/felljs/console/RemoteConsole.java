@@ -31,7 +31,7 @@ public class RemoteConsole {
 		while (true) {
 			String rec = getNextMessage();
 			while (rec != null) {
-				if (rec.length() > 0) {
+				if (!rec.equals("ignoreme")) {
 					System.out.println(rec);
 				}
 				rec = getNextMessage();
