@@ -26,9 +26,9 @@ function canBranch(x, y, dir)
 end
 
 function branch(x, y)
-	while(canBranch(1) or canBranch(2) or canBranch(3) or canBranch(4)) do
+	while(canBranch(x,y,1) or canBranch(x,y,2) or canBranch(x,y,3) or canBranch(x,y,4)) do
 		local dir = math.random(1,4)
-		if (canBranch(dir)) then
+		if (canBranch(x,y,dir)) then
 			if (dir == 1) then
 				cols[x][y+1] = 1
 				cols[x][y+2] = 1
