@@ -18,7 +18,7 @@ function placeRoom()
 	local h = (math.random(0,6) * 2) + 1
 	for a=x,x+w,1 do
 		for b=y,y+h,1 do
-			if ( cols[a][b] ~= -1 ) then
+			if ( a > xLen or b > yLen or cols[a][b] ~= -1 ) then
 				return
 			end
 		end
