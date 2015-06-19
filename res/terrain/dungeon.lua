@@ -14,8 +14,8 @@ end
 function placeRoom()
 	local x = (math.random(1,xLen/2) * 2) - 1
 	local y = (math.random(1,yLen/2) * 2) - 1
-	local w = (math.random(0,6) * 2)
-	local h = (math.random(0,6) * 2)
+	local w = (math.random(2,6) * 2)
+	local h = (math.random(2,6) * 2)
 	for a=x,x+w,1 do
 		for b=y,y+h,1 do
 			if ( a > xLen or b > yLen or cols[a][b] ~= -1 ) then
@@ -30,7 +30,7 @@ function placeRoom()
 	end
 end
 
-for i=0,100,1 do
+for i=0,200,1 do
 	placeRoom()
 end
 
