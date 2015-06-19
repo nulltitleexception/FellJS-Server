@@ -1,5 +1,5 @@
 local arg = table.pack(...)
-cols={}
+local cols={}
 local xLen = (arg[1]-1) or 1
 local yLen = (arg[2]-1) or 1
 
@@ -13,13 +13,13 @@ end
 
 function canBranch(x, y, dir)
 	if (dir == 1) then
-		return ((cols[x][y+1] == -1) and (cols[x][y+2] == -1))
+		return ((y + 2 <= yLen) and (cols[x][y+1] == -1) and (cols[x][y+2] == -1))
 	elseif (dir == 2) then
-		return ((cols[x+1][y] == -1) and (cols[x+2][y] == -1))
+		return ((x + 2 <= xLen) and (cols[x+1][y] == -1) and (cols[x+2][y] == -1))
 	elseif (dir == 3) then
-		return ((cols[x][y-1] == -1) and (cols[x][y-2] == -1))
+		return ((y - 2 >= 0) and (cols[x][y-1] == -1) and (cols[x][y-2] == -1))
 	elseif (dir == 4) then
-		return ((cols[x-1][y] == -1) and (cols[x-2][y] == -1))
+		return ((x - 2 >= 0) and (cols[x-1][y] == -1) and (cols[x-2][y] == -1))
 	else
 		print "Lua Error: perfectmaze.lua->canBranch()"
 	end
