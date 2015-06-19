@@ -68,9 +68,9 @@ public class Client {
 				isKeyDown[i] = ((Boolean) ((JSONArray) parsedMsg.get("keys")).toArray()[i]).booleanValue();
 			}
 			if (parsedMsg.containsKey("mouse")) {
-				mx = (Integer) ((JSONObject) parsedMsg.get("mouse")).get("x");
-				my = (Integer) ((JSONObject) parsedMsg.get("mouse")).get("x");
-				e.angle = (Double) ((JSONObject) parsedMsg.get("mouse")).get("x");
+				mx = ((Long) ((JSONObject) parsedMsg.get("mouse")).get("x")).intValue();
+				my = ((Long) ((JSONObject) parsedMsg.get("mouse")).get("y")).intValue();
+				e.angle = (Double) ((JSONObject) parsedMsg.get("mouse")).get("angle");
 			}
 		}
 	}
