@@ -74,15 +74,27 @@ public class Entity {
 	public void fixCollisions(Level l) {
 		if (box.x < 0) {
 			box.x = 0;
+			if (vel.X() < 0) {
+				vel.setX(0);
+			}
 		}
 		if (box.y < 0) {
 			box.y = 0;
+			if (vel.Y() < 0) {
+				vel.setY(0);
+			}
 		}
 		if (box.x + box.w > l.tiles.length * Level.TILE_SIZE) {
 			box.x = (l.tiles.length * Level.TILE_SIZE) - box.w;
+			if (vel.X() > 0) {
+				vel.setX(0);
+			}
 		}
 		if (box.y + box.h > l.tiles[0].length * Level.TILE_SIZE) {
 			box.y = (l.tiles[0].length * Level.TILE_SIZE) - box.h;
+			if (vel.Y() > 0) {
+				vel.setY(0);
+			}
 		}
 		for (Entity e : l.entities) {
 			if (id != e.id && box.intersects(e.box)) {
@@ -90,14 +102,26 @@ public class Entity {
 				if (intrsct.w < intrsct.h) {
 					if (box.x < e.box.x) {
 						box.x -= intrsct.w;
+						if (vel.X() > 0) {
+							vel.setX(0);
+						}
 					} else {
 						box.x += intrsct.w;
+						if (vel.X() < 0) {
+							vel.setX(0);
+						}
 					}
 				} else {
 					if (box.y < e.box.y) {
 						box.y -= intrsct.h;
+						if (vel.Y() > 0) {
+							vel.setY(0);
+						}
 					} else {
 						box.y += intrsct.h;
+						if (vel.Y() < 0) {
+							vel.setY(0);
+						}
 					}
 				}
 			}
@@ -113,14 +137,26 @@ public class Entity {
 						if (intrsct.w < intrsct.h) {
 							if (box.x < tileBox.x) {
 								box.x -= intrsct.w;
+								if (vel.X() > 0) {
+									vel.setX(0);
+								}
 							} else {
 								box.x += intrsct.w;
+								if (vel.X() < 0) {
+									vel.setX(0);
+								}
 							}
 						} else {
 							if (box.y < tileBox.y) {
 								box.y -= intrsct.h;
+								if (vel.Y() > 0) {
+									vel.setY(0);
+								}
 							} else {
 								box.y += intrsct.h;
+								if (vel.Y() < 0) {
+									vel.setY(0);
+								}
 							}
 						}
 					}
