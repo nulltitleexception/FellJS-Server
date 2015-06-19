@@ -20,7 +20,7 @@ public class Program extends WebSocketServer {
 	public Level				level;
 	public Program() {
 		super(new InetSocketAddress(38734));
-		level = Resources.getLevelGenerator("default").createDungeonLevel(100, 100);
+		level = Resources.getLevelGenerator("perfectmaze").createDungeonLevel(100, 100);
 	}
 	@Override
 	public void onOpen(WebSocket conn, ClientHandshake handshake) {
