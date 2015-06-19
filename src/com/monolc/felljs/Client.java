@@ -70,7 +70,7 @@ public class Client {
 			if (parsedMsg.containsKey("mouse")) {
 				mx = ((Long) ((JSONObject) parsedMsg.get("mouse")).get("x")).intValue();
 				my = ((Long) ((JSONObject) parsedMsg.get("mouse")).get("y")).intValue();
-				e.angle = (Double) ((JSONObject) parsedMsg.get("mouse")).get("angle");
+				e.angle = Double.parseDouble(((JSONObject) parsedMsg.get("mouse")).get("angle").toString());
 			}
 		}
 	}
