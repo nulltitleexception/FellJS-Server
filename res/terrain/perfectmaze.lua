@@ -55,7 +55,6 @@ end
 branch((math.random((xLen-1)/2)*2)+1, (math.random((yLen-1)/2)*2)+1)
 
 for a=0,xLen,1 do
-	cols[a] = {}
 	for b=0,yLen,1 do
 		if (cols[a][b] == -1) then
 			cols[a][b] = 0;
