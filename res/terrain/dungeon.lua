@@ -12,7 +12,6 @@ for a=0,xLen,1 do
 end
 
 function placeRoom()
-	print("ROOM SUCCESS")
 	local x = (math.random(1,xLen/2) * 2) - 1
 	local y = (math.random(1,yLen/2) * 2) - 1
 	local w = (math.random(0,6) * 2) + 1
@@ -31,6 +30,7 @@ function placeRoom()
 	end
 end
 
+print("ROOMS")
 for i=0,100,1 do
 	placeRoom()
 end
