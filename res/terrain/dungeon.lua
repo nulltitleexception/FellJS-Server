@@ -239,14 +239,19 @@ end
 function needsPruning(x, y)
 	if (cols[x][y] >= 0) then
 		local n = 0
-		for a=-1,1,1 do
-			for b=-1,1,1 do
-				if (isVAN(x+a,y+b,-1)) then
-					n = n+1
-				end
-			end
+		if (isVAN(x+1,y,-1)) then
+			n = n+1
 		end
-		if (n == 2) then
+		if (isVAN(x-1,y,-1)) then
+			n = n+1
+		end
+		if (isVAN(x,y+1,-1)) then
+			n = n+1
+		end
+		if (isVAN(x,y-1,-1)) then
+			n = n+1
+		end
+		if (n <= 1) then
 			return true
 		end
 	end
@@ -266,9 +271,7 @@ function prune()
 	return success
 end
 
-local unimportantVariable = 0
 while(prune()) do
-	unimportantVariable = unimportantVariable + 1
 end
 
 -- pretty much the last thing is to convert everything to either a wall or not
