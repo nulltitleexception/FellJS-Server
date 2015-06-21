@@ -146,7 +146,7 @@ end
 function getID(min, max)
 	for a=0,xLen,1 do
 		for b=0,yLen,1 do
-			if ((cols[a][b] >= min) and (!max or (cols[a][b] <= max))) then
+			if ((cols[a][b] >= min) and ((not max) or (cols[a][b] <= max))) then
 				return cols[a][b]
 			end
 		end
