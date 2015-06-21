@@ -44,6 +44,13 @@ function placeRoom()
 	end
 end
 
+local rid = getRoomID()
+for a=1,7,1 do
+	for b=1,7,1 do
+		cols[a][b] = rid;
+	end
+end
+
 for i=0,200,1 do
 	placeRoom()
 end
