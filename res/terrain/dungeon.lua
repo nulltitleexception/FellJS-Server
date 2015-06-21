@@ -241,14 +241,12 @@ function needsPruning(x, y)
 		local n = 0
 		for a=-1,1,1 do
 			for b=-1,1,1 do
-				if ((a ~= 0) or (b~=0)) then
-					if (isVAN(a,b,-1)) then
-						n = n+1
-					end
+				if (isVAN(a,b,-1)) then
+					n = n+1
 				end
 			end
 		end
-		if (n == 1) then
+		if (n == 2) then
 			return true
 		end
 	end
