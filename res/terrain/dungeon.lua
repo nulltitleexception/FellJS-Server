@@ -228,6 +228,44 @@ while (nextID > 0) do
 	nextID = getID()
 end
 
+-- Now its time for pruning
+function needsPruning(x, y)
+	if (cols[x][y] >= 0) then
+		local n = 0
+		for a=-1,1,1 do
+			for b=-1,1,1 do
+				if ((a ~= 0) or (b~=0)) then
+					if (isVAN(a,b,-1)) then
+						n = n+1
+					end
+				end
+			end
+		end
+		if (n == 1) then
+			return true
+		end
+	end
+	return false
+end
+
+function prune()
+	local success = false;
+	for a=0,xLen,1 do
+		for b=0,yLen,1 do
+			if (needsPruning(a,b)) then
+				cols[a][b] = -1
+				success = true
+			end
+		end
+	end
+	return success
+end
+
+while(prune()) do
+	--nothing
+end
+
+-- pretty much the last thing is to convert everything to either a wall or not
 for a=0,xLen,1 do
 	for b=0,yLen,1 do
 		if (cols[a][b] < 0) then
