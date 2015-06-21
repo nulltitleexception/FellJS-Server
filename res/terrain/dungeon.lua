@@ -123,7 +123,7 @@ function merge(id1, id2)
 end
 
 function floodFillPos(x, y, id)
-	if (cols[x][y] >= 0 and cols[x][y] ~= id) then
+	if ((cols[x][y] >= 0) and (cols[x][y] ~= id)) then
 		cols[x][y] = id
 		floodFillPos(x+1, y, id)
 		floodFillPos(x-1, y, id)
@@ -156,6 +156,7 @@ end
 
 local nextID = getID(1)
 while (nextID >= 1) do
+	print ("merging " .. nextID)
 	merge(0,nextID)
 	floodFill(0)
 	nextID = getID(1)
