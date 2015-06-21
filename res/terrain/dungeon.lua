@@ -123,7 +123,7 @@ function merge(id1, id2)
 end
 
 function floodFillPos(x, y, id)
-	if (cols[x][y] >= 0 && cols[x][y] ~= id) then
+	if (cols[x][y] >= 0 and cols[x][y] ~= id) then
 		cols[x][y] = id
 		floodFillPos(x+1, y, id)
 		floodFillPos(x-1, y, id)
