@@ -123,7 +123,7 @@ function merge(id1, id2)
 end
 
 function floodFillPos(x, y, id)
-	if (cols[x][y] >= 0) then
+	if (cols[x][y] >= 0 && cols[x][y] != id) then
 		cols[x][y] = id
 		floodFillPos(x+1, y, id)
 		floodFillPos(x-1, y, id)
@@ -154,11 +154,11 @@ function getID(min, max)
 	return min-1
 end
 
-local nextID = getID(2)
-while (nextID >= 2) do
-	merge(1,nextID)
-	floodFill()
-	nextID = getID(2)
+local nextID = getID(1)
+while (nextID >= 1) do
+	merge(0,nextID)
+	floodFill(0)
+	nextID = getID(1)
 end
 
 for a=0,xLen,1 do
