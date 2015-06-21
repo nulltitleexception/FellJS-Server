@@ -112,7 +112,7 @@ function getID()
 end
 
 function hasAdj(x,y,id)
-	return (((x<=xLen) and (cols[x+1][y] == id)) or ((y<=yLen) and cols[x][y+1] == id)) or ((x>=1) and cols[x-1][y] == id)) or ((y>=1) and cols[x][y-1] == id)))
+	return (((x<=xLen) and (cols[x+1][y] == id)) or ((y<=yLen) and (cols[x][y+1] == id)) or ((x>=1) and (cols[x-1][y] == id)) or ((y>=1) and (cols[x][y-1] == id)))
 end
 
 function hasAdjNot(x,y,nId)
