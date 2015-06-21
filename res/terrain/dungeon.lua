@@ -116,7 +116,7 @@ function hasAdj(x,y,id)
 end
 
 function hasAdjNot(x,y,nId)
-	return (((x<=xLen) and (cols[x+1][y] >= 0) and (cols[x+1][y] ~= nId)) or ((y<=yLen) and (cols[x][y+1] >= 0) and (cols[x][y+1] ~= nId)) or ((x>=1) and (cols[x-1][y] >= 0) and (cols[x-1][y] ~= nId)) or ((y>=1) and (cols[x][y-1] >= 0) and (cols[x][y-1] ~= nId)))
+	return (((x<=xLen-1) and (cols[x+1][y] >= 0) and (cols[x+1][y] ~= nId)) or ((y<=yLen-1) and (cols[x][y+1] >= 0) and (cols[x][y+1] ~= nId)) or ((x>=1) and (cols[x-1][y] >= 0) and (cols[x-1][y] ~= nId)) or ((y>=1) and (cols[x][y-1] >= 0) and (cols[x][y-1] ~= nId)))
 end
 
 function isConnector(x,y,id)
