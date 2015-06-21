@@ -101,7 +101,7 @@ end
 --Greater than or equal to id
 function isAdjGorE(id, x, y, nId)
 	nId = nId or (id-1)
-	return (((x > 0 )and( cols[x-1][y] >= id )and( cols[x-1][y] ~= nId) )or( (y > 0 )and( cols[x][y - 1] >= id )and( cols[x][y-1] ~= nId) )or( (x < xLen )and( cols[x+1][y] >= id )and( cols[x+1][y] ~= nId) )or( (y < xLen )and( cols[x][y+1] >= id )and( cols[x][y+1] ~= nId)))
+	return (((x > 0 )and( cols[x-1][y] >= id )and( cols[x-1][y] ~= nId) )or( (y > 0 )and( cols[x][y - 1] >= id )and( cols[x][y-1] ~= nId) )or( (x < xLen )and( cols[x+1][y] >= id )and( cols[x+1][y] ~= nId) )or( (y < yLen )and( cols[x][y+1] >= id )and( cols[x][y+1] ~= nId)))
 end
 
 function merge(id)
