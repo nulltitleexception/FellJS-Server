@@ -279,7 +279,17 @@ end
 for a=0,xLen,1 do
 	for b=0,yLen,1 do
 		if (cols[a][b] < 0) then
-			cols[a][b] = 0;
+			local wall = false
+			for u=a-1,a+1,1 do
+				for v=b-1,b+1,1 do
+					if (isVAN(u,v,-1)) then
+						wall = true
+					end
+				end
+			end
+			if (wall) then
+				cols[a][b] = 0
+			end
 		else
 			cols[a][b] = 1;
 		end
