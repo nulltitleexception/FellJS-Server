@@ -266,8 +266,9 @@ function prune()
 	return success
 end
 
+local unimportantVariable
 while(prune()) do
-	--nothing
+	unimportantVariable = unimportantVariable + 1
 end
 
 -- pretty much the last thing is to convert everything to either a wall or not
