@@ -4,11 +4,14 @@ local xLen = (arg[1]-1) or 1
 local yLen = (arg[2]-1) or 1
 
 -- Heres where the generation happens (above is boilerplate)
+local filled = {} --(for flood filling)
 --First we fill it in with -1 (null)
 for a=0,xLen,1 do
 	cols[a] = {}
+	filled[a] = {}
 	for b=0,yLen,1 do
 		cols[a][b] = -1;
+		filled[a][b] = false;
 	end
 end
 
@@ -111,26 +114,76 @@ function getID()
 	return -1
 end
 
-function hasAdj(x,y,id)
-	print (x .. ", " .. y)
-	return (((x<=xLen) and (cols[x+1][y] == id)) or ((y<=yLen) and (cols[x][y+1] == id)) or ((x>=1) and (cols[x-1][y] == id)) or ((y>=1) and (cols[x][y-1] == id)))
+function countID(id)
+	local n = 0
+	for a=0,xLen,1 do
+		for b=0,yLen,1 do
+			if (cols[a][b] == id) then
+				n = n + 1
+			end
+		end
+	end
+	return n
 end
 
-function hasAdjNot(x,y,nId)
-	return (((x<=xLen-1) and (cols[x+1][y] >= 0) and (cols[x+1][y] ~= nId)) or ((y<=yLen-1) and (cols[x][y+1] >= 0) and (cols[x][y+1] ~= nId)) or ((x>=1) and (cols[x-1][y] >= 0) and (cols[x-1][y] ~= nId)) or ((y>=1) and (cols[x][y-1] >= 0) and (cols[x][y-1] ~= nId)))
+--valid and ID
+function isVAI(x,y,id)
+	return (isValid(x,y) and (cols[x][y] == id))
+end
+
+--valid and Not id
+function isVAN(x,y,id)
+	return (isValid(x,y) and (cols[x][y] ~= id) and (cols[x][y] >= 0))
+end
+
+function isValid(x,y)
+	return ((x<=xLen) and (x >= 0) and (y<=yLen) and (y>=0))
+end
+
+function hasAdj(x,y,id)
+	return (isVAI(x+1,y,id) or isVAI(x-1,y,id) or isVAI(x,y+1,id) or isVAI(x,y-1,id))
+end
+
+function hasAdjNot(x,y,id)
+	return (isVAN(x+1,y,id) or isVAN(x-1,y,id) or isVAN(x,y+1,id) or isVAN(x,y-1,id))
 end
 
 function isConnector(x,y,id)
 	return (hasAdj(x,y,id) and hasAdjNot(x,y,id))
 end
 
-function floodFill(x, y)
-	if ((x>=0) and (y>=0) and (x <= xLen) and (y <= yLen) and (cols[x][y] > 0)) then
-		cols[x][y] = 0
-		floodFill(x+1, y, id)
-		floodFill(x-1, y, id)
-		floodFill(x, y+1, id)
-		floodFill(x, y-1, id)
+function floodFill(x, y, id)
+	local qx = {}
+	local qy = {}
+	local qn = 0
+	qx[0] = x
+	qy[0] = y
+	while (qn >= 0) do
+		if (isVAN(qx[qn],qy[qn], -1) and (not filled[qx[qn]][qy[qn]])) then
+			cols[qx[qn]][qy[qn]] = id
+			filled[qx[qn]][qy[qn]] = true
+			local tx = qx[qn]
+			local ty = qy[qn]
+			qn = qn + 3
+			qx[qn] = tx
+			qx[qn-1] = tx
+			qx[qn-2] = tx + 1
+			qx[qn-3] = tx - 1
+			qy[qn] = ty + 1
+			qy[qn-1] = ty - 1
+			qy[qn-2] = ty
+			qy[qn-3] = ty
+		else
+			qn = qn - 1
+		end
+	end
+end
+
+function resetFloodFill()
+	for a=0,xLen,1 do
+		for b=0,yLen,1 do
+			filled[a][b] = false;
+		end
 	end
 end
 
@@ -150,6 +203,8 @@ function merge(id)
 		end
 	end
 	if (conNum > 0) then
+		local fx = -1
+		local fy = -1
 		for i=0,math.min(conNum-1,math.random(0, math.max(2,(conNum*0.05) + 2))),1 do
 			local n = math.random(0,conNum-1)
 			while (cond[n]) do
@@ -157,16 +212,23 @@ function merge(id)
 			end
 			cols[conx[n]][cony[n]] = id
 			cond[n] = true
+			if ((fx == -1) or (fy == -1)) then
+				fx = conx[n]
+				fy = cony[n]
+			end
 		end
-		floodFill(conx[0], cony[0])
+		floodFill(fx, fy, id)
+		resetFloodFill()
 	end
 end
 
 local nextID = getID()
-while (nextID > 0) do
-	print ("merging " .. nextID)
+local num = 100
+while ((nextID > 0) and (num > 0)) do
+	print (" "..(countID(nextID)))
 	merge(nextID)
 	nextID = getID()
+	num = num - 1
 end
 
 for a=0,xLen,1 do
