@@ -98,14 +98,20 @@ function isAdj(id, x, y)
 	return ((x > 0 and cols[x-1][y] == id) or (y > 0 and cols[x][y - 1] == id) or (x < xLen and cols[x+1][y] == id) or (y < xLen and cols[x][y+1] == id))
 end
 
-function merge(id1, id2)
+--Greater than or equal to id
+function isAdjGorE(id, x, y, nId)
+	nId = nId or (id-1)
+	return ((x > 0 and cols[x-1][y] >= id and cols[x-1][y] ~= nId) or (y > 0 and cols[x][y - 1] >= id and cols[x][y-1] ~= nId) or (x < xLen and cols[x+1][y] >= id and cols[x+1][y] ~= nId) or (y < xLen and cols[x][y+1] >= id and cols[x][y+1] ~= nId))
+end
+
+function merge(id)
 	local conx = {}
 	local cony = {}
 	local cond = {}
 	local conNum = 0
 	for a=0,xLen,1 do
 		for b=0,yLen,1 do
-			if (isAdj(id1,a,b) and isAdj(id2,a,b)) then
+			if (isAdj(id,a,b) and isAdjGorE(0,a,b,id)) then
 				conx[conNum] = a
 				cony[conNum] = b
 				cond[conNum] = false;
@@ -157,7 +163,7 @@ end
 local nextID = getID(1)
 while (nextID >= 1) do
 	print ("merging " .. nextID)
-	merge(0,nextID)
+	merge(nextID)
 	floodFill(0)
 	nextID = getID(1)
 end
