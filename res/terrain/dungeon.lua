@@ -241,7 +241,7 @@ function needsPruning(x, y)
 		local n = 0
 		for a=-1,1,1 do
 			for b=-1,1,1 do
-				if (isVAN(a,b,-1)) then
+				if (isVAN(x+a,y+b,-1)) then
 					n = n+1
 				end
 			end
@@ -266,12 +266,13 @@ function prune()
 	return success
 end
 
-local unimportantVariable
+local unimportantVariable = 0
 while(prune()) do
 	unimportantVariable = unimportantVariable + 1
 end
 
 -- pretty much the last thing is to convert everything to either a wall or not
+
 for a=0,xLen,1 do
 	for b=0,yLen,1 do
 		if (cols[a][b] < 0) then
@@ -281,6 +282,7 @@ for a=0,xLen,1 do
 		end
 	end
 end
+
 -- and everything after this is boilerplate
 
 local retS = "["
