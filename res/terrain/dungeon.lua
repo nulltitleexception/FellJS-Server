@@ -152,7 +152,8 @@ function isConnector(x,y,id)
 	return (hasAdj(x,y,id) and hasAdjNot(x,y,id))
 end
 
-function floodFill(x, y, id)
+function floodFill(x, y)
+	resetFloodFill()
 	local qx = {}
 	local qy = {}
 	local qn = 0
@@ -160,7 +161,7 @@ function floodFill(x, y, id)
 	qy[0] = y
 	while (qn >= 0) do
 		if (isVAN(qx[qn],qy[qn], -1) and (not filled[qx[qn]][qy[qn]])) then
-			cols[qx[qn]][qy[qn]] = id
+			cols[qx[qn]][qy[qn]] = 0
 			filled[qx[qn]][qy[qn]] = true
 			local tx = qx[qn]
 			local ty = qy[qn]
@@ -217,18 +218,14 @@ function merge(id)
 				fy = cony[n]
 			end
 		end
-		floodFill(fx, fy, id)
-		resetFloodFill()
+		floodFill(fx, fy)
 	end
 end
 
 local nextID = getID()
-local num = 100
-while ((nextID > 0) and (num > 0)) do
-	print (" "..(countID(nextID)))
+while (nextID > 0) do
 	merge(nextID)
 	nextID = getID()
-	num = num - 1
 end
 
 for a=0,xLen,1 do
