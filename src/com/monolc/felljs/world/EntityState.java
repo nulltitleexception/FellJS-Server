@@ -6,8 +6,8 @@ import com.monolc.felljs.physics.Vector2D;
 import com.monolc.felljs.res.EntitySchematic;
 
 public class EntityState {
-	private static final double	ATTACK_DIST	= 5;
-	private static final double	ATTACK_DUR	= 2;
+	private static final double	ATTACK_DIST	= 10;
+	private static final double	ATTACK_DUR	= 0.2;
 	public EntitySchematic		schematic;
 	public int					health;
 	public double				attackTime;
