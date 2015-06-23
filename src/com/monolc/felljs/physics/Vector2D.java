@@ -1,5 +1,7 @@
 package com.monolc.felljs.physics;
 
+import org.json.simple.JSONObject;
+
 public class Vector2D {
 	private double	x, y;
 	public Vector2D() {
@@ -37,5 +39,12 @@ public class Vector2D {
 	}
 	public double dot(Vector2D v) {
 		return (this.x * v.x) + (this.y * v.y);
+	}
+	@SuppressWarnings("unchecked")
+	public JSONObject toJSON() {
+		JSONObject ret = new JSONObject();
+		ret.put("x", new Double(x));
+		ret.put("y", new Double(y));
+		return ret;
 	}
 }

@@ -9,11 +9,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+import com.monolc.felljs.ai.EntityAI;
 import com.monolc.felljs.console.Console;
 import com.monolc.felljs.physics.Rect2D;
 import com.monolc.felljs.world.Entity;
 
-public class Client {
+public class Client implements EntityAI {
 	public Program		server;
 	public WebSocket	connection;
 	public boolean		validated				= false;
@@ -23,6 +24,8 @@ public class Client {
 	boolean[]			isKeyDown				= new boolean[256];
 	int					mx						= 0;
 	int					my						= 0;
+	boolean[]			mb						= { false, false, false };
+	boolean[]			mbprev					= { false, false, false };
 	Entity				e;
 	public Client(Program s, WebSocket conn) {
 		server = s;
@@ -56,7 +59,7 @@ public class Client {
 		Color C = Color.getHSBColor(random.nextFloat(), 0.9f, 0.9f);
 		String color = String.format("#%02X%02X%02X", C.getRed(), C.getGreen(), C.getBlue());
 		e = new Entity(server.level, new Rect2D(33, 33, 28, 28), color, username);
-		e.client = this;
+		e.brain = this;
 	}
 	public void handleInput(String msg) {
 		JSONObject parsedMsg = (JSONObject) JSONValue.parse(msg);
@@ -71,6 +74,15 @@ public class Client {
 				mx = ((Long) ((JSONObject) parsedMsg.get("mouse")).get("x")).intValue();
 				my = ((Long) ((JSONObject) parsedMsg.get("mouse")).get("y")).intValue();
 				e.angle = Double.parseDouble(((JSONObject) parsedMsg.get("mouse")).get("angle").toString());
+				mbprev[0] = mb[0];
+				mbprev[1] = mb[1];
+				mbprev[2] = mb[2];
+				mb[0] = ((Boolean) ((JSONObject) parsedMsg.get("mouse")).get("button0")).booleanValue();
+				mb[1] = ((Boolean) ((JSONObject) parsedMsg.get("mouse")).get("button1")).booleanValue();
+				mb[2] = ((Boolean) ((JSONObject) parsedMsg.get("mouse")).get("button2")).booleanValue();
+				if (mb[0] && !mbprev[0]) {
+					e.state.attemptAttack();
+				}
 			}
 		}
 	}
@@ -102,6 +114,7 @@ public class Client {
 			ymod /= sqrt2;
 		}
 		e.move(xmod, ymod);
+		e.state.update(dt);
 	}
 	public int getDataStride() {
 		return 7;

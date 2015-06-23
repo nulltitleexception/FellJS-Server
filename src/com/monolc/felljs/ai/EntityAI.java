@@ -1,5 +1,5 @@
 package com.monolc.felljs.ai;
 
-public class EntityAI {
-	//this is the superclass for all entity ai's player or otherwise
+public interface EntityAI {
+	//this is the interface for all entity ai's player or otherwise
 }

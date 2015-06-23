@@ -2,7 +2,7 @@ package com.monolc.felljs.world;
 
 import org.json.simple.JSONObject;
 
-import com.monolc.felljs.Client;
+import com.monolc.felljs.ai.EntityAI;
 import com.monolc.felljs.console.Console;
 import com.monolc.felljs.physics.Rect2D;
 import com.monolc.felljs.physics.Vector2D;
@@ -16,10 +16,10 @@ public class Entity {
 	public String		color	= null;
 	public String		name	= null;
 	public Level		level;
-	public Client		client	= null; // only if this is a player. (otherwise this will remain null)
-	public EntityData	data;
+	public EntityAI		brain;
+	public EntityState	state;
 	public Entity(Level w, Rect2D b, String c, String n) {
-		data = new EntityData(Resources.getEntitySchematic("default"));
+		state = new EntityState(Resources.getEntitySchematic("default"));
 		vel = new Vector2D();
 		angle = 0;
 		level = w;
@@ -38,7 +38,7 @@ public class Entity {
 		ret.put("height", new Integer((int) (box.h + 0.5)));
 		ret.put("color", color);
 		ret.put("name", (name != null ? name : "SERVER_ERROR"));
-		ret.put("data", data.toJSON());
+		ret.put("data", state.toJSON());
 		return ret;
 	}
 	public void move(double vx, double vy) {
