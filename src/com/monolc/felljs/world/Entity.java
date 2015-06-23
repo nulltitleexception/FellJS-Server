@@ -38,7 +38,7 @@ public class Entity {
 		ret.put("height", new Integer((int) (box.h + 0.5)));
 		ret.put("color", color);
 		ret.put("name", (name != null ? name : "SERVER_ERROR"));
-		ret.put("data", state.toJSON());
+		ret.put("state", state.toJSON());
 		return ret;
 	}
 	public void move(double vx, double vy) {
