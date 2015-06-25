@@ -3,8 +3,8 @@ package com.monolc.felljs.world;
 import org.json.simple.JSONObject;
 
 public class Tile {
-	int		id;
-	boolean	passable;
+	public int		id;
+	public boolean	passable;
 	public Tile(int ID, boolean p) {
 		id = ID;
 		passable = p;

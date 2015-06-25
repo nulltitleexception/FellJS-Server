@@ -2,6 +2,7 @@ package com.monolc.felljs.world;
 
 import org.json.simple.JSONObject;
 
+import com.monolc.felljs.Client;
 import com.monolc.felljs.ai.EntityAI;
 import com.monolc.felljs.console.Console;
 import com.monolc.felljs.physics.Rect2D;
@@ -19,13 +20,14 @@ public class Entity {
 	public EntityAI		brain;
 	public EntityState	state;
 	public Entity(Level w, Rect2D b, String c, String n) {
-		state = new EntityState(Resources.getEntitySchematic("default"));
+		state = new EntityState(Resources.getEntitySchematic(n));
+		brain = Resources.getEntityAI(state.schematic.AI);
 		vel = new Vector2D();
 		angle = 0;
 		level = w;
 		box = b;
 		color = c;
-		name = n;
+		name = Character.toUpperCase(n.charAt(0)) + n.substring(1);
 		level.addEntity(this);
 	}
 	@SuppressWarnings("unchecked")
@@ -33,22 +35,31 @@ public class Entity {
 		JSONObject ret = new JSONObject();
 		ret.put("x", new Integer((int) (box.x + 0.5)));
 		ret.put("y", new Integer((int) (box.y + 0.5)));
-		ret.put("angle", new Double(angle));
+		ret.put("angle", new Double((Math.PI / 2) - angle));
 		ret.put("width", new Integer((int) (box.w + 0.5)));
 		ret.put("height", new Integer((int) (box.h + 0.5)));
 		ret.put("color", color);
 		ret.put("name", (name != null ? name : "SERVER_ERROR"));
+		ret.put("sprite", (brain instanceof Client) ? "player" : 2);
 		ret.put("state", state.toJSON());
 		return ret;
 	}
-	public void move(double vx, double vy) {
+	public void update(double dt) {
+		if (state.health <= 0) {
+			//TODO: Kill and add corpse?
+			level.entities.remove(this);
+		}
+		brain.update(this, dt);
+		state.update(dt);
+	}
+	public void move(double vx, double vy, double dt) {
 		double muFactor = 0.9;
 		vel = vel.mult(muFactor).add((new Vector2D(vx, vy)).mult(1 - muFactor));
 		if (checkCollisions(level)) {
 			Console.println("LOGIC ERROR!");
 		}
-		box.x += vel.X();
-		box.y += vel.Y();
+		box.x += vel.X() * dt;
+		box.y += vel.Y() * dt;
 		fixCollisions(level);
 	}
 	public boolean checkCollisions(Level l) {

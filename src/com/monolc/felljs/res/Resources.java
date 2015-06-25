@@ -10,6 +10,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
+import com.monolc.felljs.ai.BasicAI;
+import com.monolc.felljs.ai.EntityAI;
+
 public class Resources {
 	private static HashMap<String, EntitySchematic>	entitySchematics	= new HashMap<String, EntitySchematic>();
 	private static HashMap<String, LevelGenerator>	levelGenerators	= new HashMap<String, LevelGenerator>();
@@ -18,6 +21,12 @@ public class Resources {
 			entitySchematics.put(name, new EntitySchematic(name));
 		}
 		return entitySchematics.get(name);
+	}
+	public static EntityAI getEntityAI(String AI) {
+		if (AI.equals("BasicAI")){
+			return new BasicAI();
+		}
+		return null;
 	}
 	public static LevelGenerator getLevelGenerator(String name) {
 		if (!levelGenerators.containsKey(name)){

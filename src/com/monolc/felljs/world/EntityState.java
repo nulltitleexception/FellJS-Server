@@ -13,10 +13,12 @@ public class EntityState {
 	public double				attackTime;
 	public EntityState(EntitySchematic es) {
 		schematic = es;
+		health = schematic.maxHealth;
 	}
 	@SuppressWarnings("unchecked")
 	public JSONObject toJSON() {
 		JSONObject ret = new JSONObject();
+		ret.put("type", schematic.name);
 		ret.put("health", new Integer(health));
 		if (attackTime > 0) {
 			ret.put("weapon", getWeaponPosRelativ().toJSON());

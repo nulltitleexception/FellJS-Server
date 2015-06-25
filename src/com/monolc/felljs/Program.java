@@ -13,6 +13,7 @@ import org.json.simple.JSONValue;
 import com.monolc.felljs.console.Console;
 import com.monolc.felljs.console.RemoteConsole;
 import com.monolc.felljs.res.Resources;
+import com.monolc.felljs.world.Entity;
 import com.monolc.felljs.world.Level;
 
 public class Program extends WebSocketServer {
@@ -150,7 +151,6 @@ public class Program extends WebSocketServer {
 		Console.println("Error: " + exc.getMessage() + ",\n" + trace);
 	}
 	public static void main(String[] args) {
-		Resources.getEntitySchematic("ogre");
 		if (args.length >= 1 && args[0].equals("remoteconsole")) {
 			RemoteConsole rc = null;
 			try {
@@ -176,16 +176,22 @@ public class Program extends WebSocketServer {
 				}
 			}
 			frameTime += dt;
-			try {
-				Thread.sleep(15);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			if (dt < 15000000) {
+				try {
+					Thread.sleep(15 - ((int) (dt / 1000000)));
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			synchronized (server.level) {
+				for (Entity e : server.level.entities) {
+					e.update(dt / 1000000000.0);
+				}
 			}
 			synchronized (server.clients) {
 				for (Client c : server.clients) {
 					if (c.validated) {
-						c.update(dt / 1000000000.0, server.clients);
-						c.sendData(server.clients);
+						c.sendData();
 					}
 				}
 			}

@@ -11,10 +11,12 @@ import org.json.simple.parser.ParseException;
 import com.monolc.felljs.console.Console;
 
 public class EntitySchematic {
-	JSONObject	json;
-	String		name;
-	int			maxHealth;
-	int			damage;
+	JSONObject		json;
+	public String	name;
+	public String	AI;
+	public String	faction;
+	public int		maxHealth;
+	public int		damage;
 	public EntitySchematic(String n) {
 		FileReader fr = null;
 		BufferedReader br = null;
@@ -46,6 +48,8 @@ public class EntitySchematic {
 		}
 		maxHealth = getAttributeAsInt("maxHealth");
 		damage = getAttributeAsInt("damage");
+		AI = getAttribute("AI");
+		faction = getAttribute("faction");
 		System.out.println("EntitySchematic \"" + name + "\" added: " + maxHealth + ", " + damage);
 	}
 	private String getAttribute(String n) {

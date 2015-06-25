@@ -1,5 +1,7 @@
 package com.monolc.felljs.ai;
 
+import com.monolc.felljs.world.Entity;
+
 public interface EntityAI {
-	//this is the interface for all entity ai's player or otherwise
+	public void update(Entity e, double dt);
 }

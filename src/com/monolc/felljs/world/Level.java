@@ -66,14 +66,18 @@ public class Level {
 		e.id = entities.size() - 1;
 	}
 	public synchronized Entity removeEntity(Entity e) {
-		Entity ret = entities.remove(e.id);
-		ret.id = -1;
-		reassignEntityIDs();
-		return ret;
+		if (e.level != this) {
+			return null;
+		}
+		return removeEntity(e.id);
 	}
 	public synchronized Entity removeEntity(int e) {
+		if (e < 0 || e >= entities.size()) {
+			return null;
+		}
 		Entity ret = entities.remove(e);
 		ret.id = -1;
+		ret.level = null;
 		reassignEntityIDs();
 		return ret;
 	}

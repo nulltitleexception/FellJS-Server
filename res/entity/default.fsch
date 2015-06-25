@@ -1,4 +1,6 @@
 {
+	"AI":"BasicAI",
+	"faction":"monster",
 	"maxHealth":"10",
 	"damage":"1"
 }

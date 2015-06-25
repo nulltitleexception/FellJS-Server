@@ -1,10 +1,9 @@
 package com.monolc.felljs;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Random;
 
-import org.java_websocket.*;
+import org.java_websocket.WebSocket;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -58,7 +57,8 @@ public class Client implements EntityAI {
 		Random random = new Random();
 		Color C = Color.getHSBColor(random.nextFloat(), 0.9f, 0.9f);
 		String color = String.format("#%02X%02X%02X", C.getRed(), C.getGreen(), C.getBlue());
-		e = new Entity(server.level, new Rect2D(33, 33, 28, 28), color, username);
+		e = new Entity(server.level, new Rect2D(33, 33, 28, 28), color, "player");
+		e.name = username;
 		e.brain = this;
 	}
 	public void handleInput(String msg) {
@@ -86,8 +86,8 @@ public class Client implements EntityAI {
 			}
 		}
 	}
-	public void update(double dt, ArrayList<Client> clients) {
-		double speed = 300 * dt;
+	public void update(Entity e, double dt) {
+		double speed = 300;
 		double sqrt2 = Math.sqrt(2.0);
 		double ymod = 0;
 		double xmod = 0;
@@ -113,14 +113,10 @@ public class Client implements EntityAI {
 			xmod /= sqrt2;
 			ymod /= sqrt2;
 		}
-		e.move(xmod, ymod);
-		e.state.update(dt);
-	}
-	public int getDataStride() {
-		return 7;
+		e.move(xmod, ymod, dt);
 	}
 	@SuppressWarnings("unchecked")
-	public void sendData(ArrayList<Client> clients) {
+	public void sendData() {
 		if (!validated) {
 			return;
 		}
