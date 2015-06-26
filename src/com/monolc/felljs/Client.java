@@ -61,7 +61,7 @@ public class Client implements EntityAI {
 		e.name = username;
 		e.brain = this;
 	}
-	public void handleInput(String msg) {
+	public synchronized void handleInput(String msg) {
 		JSONObject parsedMsg = (JSONObject) JSONValue.parse(msg);
 		if (!parsedMsg.containsKey("keys") || ((JSONArray) parsedMsg.get("keys")).size() != 256) {
 			Console.println("invalid input: \"" + msg + "\"");
@@ -83,7 +83,7 @@ public class Client implements EntityAI {
 			}
 		}
 	}
-	public void update(Entity e, double dt) {
+	public synchronized void update(Entity e, double dt) {
 		if (mb[0] && !mbprev[0]) {
 			e.attemptAttack();
 		}
