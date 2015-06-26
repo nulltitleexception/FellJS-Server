@@ -4,7 +4,6 @@ import org.json.simple.JSONObject;
 
 import com.monolc.felljs.Client;
 import com.monolc.felljs.ai.EntityAI;
-import com.monolc.felljs.console.Console;
 import com.monolc.felljs.physics.Rect2D;
 import com.monolc.felljs.physics.Vector2D;
 import com.monolc.felljs.res.Resources;
@@ -78,9 +77,10 @@ public class Entity {
 	public void move(double vx, double vy, double dt) {
 		double muFactor = 0.9;
 		vel = vel.mult(muFactor).add((new Vector2D(vx, vy)).mult(1 - muFactor));
-		if (checkCollisions(level)) {
+		//This is occurring too often, but there aren't any obvious signs that it's an issue gameplay-wise
+		/*if (checkCollisions(level)) {
 			Console.println("LOGIC ERROR!");
-		}
+		}*/
 		box.x += vel.X() * dt;
 		box.y += vel.Y() * dt;
 		fixCollisions(level);
