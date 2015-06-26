@@ -18,6 +18,7 @@ public class EntityState {
 	@SuppressWarnings("unchecked")
 	public JSONObject toJSON() {
 		JSONObject ret = new JSONObject();
+		ret.put("schematic", schematic.toJSON());
 		ret.put("type", schematic.name);
 		ret.put("health", new Integer(health));
 		if (attackTime > 0) {

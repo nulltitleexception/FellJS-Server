@@ -54,6 +54,14 @@ public class EntitySchematic {
 		reach = getAttributeAsInt("reach");
 		System.out.println("EntitySchematic \"" + name + "\" added: " + maxHealth + ", " + damage);
 	}
+	@SuppressWarnings("unchecked")
+	public JSONObject toJSON() {
+		JSONObject ret = new JSONObject();
+		ret.put("maxHealth", new Integer(maxHealth));
+		//We're omitting anything unimportant to the client, such as AI, faction, and (at least for now) damage and reach
+		//(not sure if damage and reach will be useful in the future, but they certainly aren't just yet)
+		return ret;
+	}
 	private String getAttribute(String n) {
 		if (json.containsKey(n)) {
 			return (String) json.get(n);
