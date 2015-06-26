@@ -17,6 +17,7 @@ public class EntitySchematic {
 	public String	faction;
 	public int		maxHealth;
 	public int		damage;
+	public int		reach;
 	public EntitySchematic(String n) {
 		FileReader fr = null;
 		BufferedReader br = null;
@@ -46,10 +47,11 @@ public class EntitySchematic {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		maxHealth = getAttributeAsInt("maxHealth");
-		damage = getAttributeAsInt("damage");
 		AI = getAttribute("AI");
 		faction = getAttribute("faction");
+		maxHealth = getAttributeAsInt("maxHealth");
+		damage = getAttributeAsInt("damage");
+		reach = getAttributeAsInt("reach");
 		System.out.println("EntitySchematic \"" + name + "\" added: " + maxHealth + ", " + damage);
 	}
 	private String getAttribute(String n) {

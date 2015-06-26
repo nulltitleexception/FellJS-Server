@@ -80,13 +80,13 @@ public class Client implements EntityAI {
 				mb[0] = ((Boolean) ((JSONObject) parsedMsg.get("mouse")).get("button0")).booleanValue();
 				mb[1] = ((Boolean) ((JSONObject) parsedMsg.get("mouse")).get("button1")).booleanValue();
 				mb[2] = ((Boolean) ((JSONObject) parsedMsg.get("mouse")).get("button2")).booleanValue();
-				if (mb[0] && !mbprev[0]) {
-					e.state.attemptAttack();
-				}
 			}
 		}
 	}
 	public void update(Entity e, double dt) {
+		if (mb[0] && !mbprev[0]) {
+			e.attemptAttack();
+		}
 		double speed = 300;
 		double sqrt2 = Math.sqrt(2.0);
 		double ymod = 0;

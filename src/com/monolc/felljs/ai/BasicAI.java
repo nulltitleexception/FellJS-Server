@@ -19,15 +19,17 @@ public class BasicAI implements EntityAI {
 		}
 		if (foundenemy) {
 			Entity en = e.level.entities.get(eid);
-			anglegoal = -(Math.atan((en.box.getCenter().Y() - e.box.getCenter().Y()) / (en.box.getCenter().X() - e.box.getCenter().X())));
-			if (en.box.getCenter().X() < e.box.getCenter().X()) {
-				anglegoal += Math.PI;
-			}
+			anglegoal = e.box.getCenter().angleTo(en.box.getCenter());
 			e.angle = anglegoal;
 		} else {
 			timetonewangle -= dt;
 			if (timetonewangle <= 0) {
 				anglegoal = Math.random() * 2 * Math.PI;
+				if (anglegoal - e.angle > Math.PI) {
+					anglegoal -= Math.PI * 2;
+				} else if (e.angle - anglegoal > Math.PI) {
+					anglegoal += Math.PI * 2;
+				}
 				timetonewangle = (Math.random() * 4) + 1.5;
 			}
 			if (Math.abs(e.angle - anglegoal) < Math.PI / 40) {
@@ -36,8 +38,8 @@ public class BasicAI implements EntityAI {
 				e.angle = (e.angle * 0.95) + (anglegoal * 0.05);
 			}
 		}
-		double xmod = Math.cos(e.angle) * speed;
-		double ymod = Math.sin(e.angle) * -speed;
-		e.move(xmod, ymod, dt);
+		double vx = Math.cos(e.angle) * speed;
+		double vy = Math.sin(e.angle) * -speed;
+		e.move(vx, vy, dt);
 	}
 }

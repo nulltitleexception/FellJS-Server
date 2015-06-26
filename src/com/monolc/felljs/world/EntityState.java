@@ -28,11 +28,12 @@ public class EntityState {
 	public void update(double dt) {
 		attackTime -= dt;
 	}
-	public void attemptAttack() {
+	public boolean attemptAttack() {
 		if (attackTime > 0) {
-			return;
+			return false;
 		}
 		attackTime = ATTACK_DUR;
+		return true;
 	}
 	public Vector2D getWeaponPosRelativ() {
 		return new Vector2D(22, -2 - (ATTACK_DIST * (1.0 - Math.abs(((1.0 - (attackTime / ATTACK_DUR)) * 2) - 1))));

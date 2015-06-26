@@ -10,12 +10,13 @@ import com.monolc.felljs.physics.Vector2D;
 import com.monolc.felljs.res.Resources;
 
 public class Entity {
-	int					id		= -1;
+	int					id				= -1;
+	private boolean		queuedForDeath	= false;
 	public Rect2D		box;
 	public Vector2D		vel;
 	public double		angle;
-	public String		color	= null;
-	public String		name	= null;
+	public String		color			= null;
+	public String		name			= null;
 	public Level		level;
 	public EntityAI		brain;
 	public EntityState	state;
@@ -29,6 +30,9 @@ public class Entity {
 		color = c;
 		name = Character.toUpperCase(n.charAt(0)) + n.substring(1);
 		level.addEntity(this);
+	}
+	public boolean isQueuedForDeath() {
+		return queuedForDeath;
 	}
 	@SuppressWarnings("unchecked")
 	public JSONObject toJSON() {
@@ -46,11 +50,30 @@ public class Entity {
 	}
 	public void update(double dt) {
 		if (state.health <= 0) {
-			//TODO: Kill and add corpse?
-			level.entities.remove(this);
+			queuedForDeath = true;
+			return;
 		}
 		brain.update(this, dt);
 		state.update(dt);
+	}
+	public boolean attemptAttack() {
+		if (state.attemptAttack()) {
+			boolean foundenemy = false;
+			int eid = -1;
+			for (int i = 0; i < level.entities.size() && !foundenemy; i++) {
+				Entity en = level.entities.get(i);
+				foundenemy = (Math.abs(en.box.getCenter().X() - box.getCenter().X()) < state.schematic.reach && Math.abs(en.box.getCenter().Y() - box.getCenter().Y()) < state.schematic.reach && ((Math.abs(box.getCenter().angleTo(en.box.getCenter()) - angle) % (Math.PI * 2)) < Math.PI / 3));
+				if (foundenemy) {
+					eid = i;
+				}
+			}
+			if (foundenemy) {
+				Entity en = level.entities.get(eid);
+				en.state.health -= 4;
+			}
+			return true;
+		}
+		return false;
 	}
 	public void move(double vx, double vy, double dt) {
 		double muFactor = 0.9;

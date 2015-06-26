@@ -40,6 +40,13 @@ public class Vector2D {
 	public double dot(Vector2D v) {
 		return (this.x * v.x) + (this.y * v.y);
 	}
+	public double angleTo(Vector2D v){
+		double ret = -(Math.atan((v.y - y) / (v.x - x)));
+		if (v.x < x) {
+			ret += Math.PI;
+		}
+		return ret;
+	}
 	@SuppressWarnings("unchecked")
 	public JSONObject toJSON() {
 		JSONObject ret = new JSONObject();

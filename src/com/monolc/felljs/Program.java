@@ -184,8 +184,14 @@ public class Program extends WebSocketServer {
 				}
 			}
 			synchronized (server.level) {
-				for (Entity e : server.level.entities) {
-					e.update(dt / 1000000000.0);
+				for (int i = 0; i < server.level.entities.size(); i++) {
+					Entity e = server.level.entities.get(i);
+					if (e.isQueuedForDeath()) {
+						server.level.entities.remove(i);
+						i--;
+					} else {
+						e.update(dt / 1000000000.0);
+					}
 				}
 			}
 			synchronized (server.clients) {

@@ -1,4 +1,5 @@
 {
 	"AI":"null",
-	"faction":"player"
+	"faction":"player",
+	"reach":"50"
 }
