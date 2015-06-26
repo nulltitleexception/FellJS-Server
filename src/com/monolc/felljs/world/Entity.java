@@ -10,13 +10,13 @@ import com.monolc.felljs.physics.Vector2D;
 import com.monolc.felljs.res.Resources;
 
 public class Entity {
-	int					id				= -1;
-	private boolean		queuedForDeath	= false;
+	int					id					= -1;
+	private boolean		queuedForRemoval	= false;
 	public Rect2D		box;
 	public Vector2D		vel;
 	public double		angle;
-	public String		color			= null;
-	public String		name			= null;
+	public String		color				= null;
+	public String		name				= null;
 	public Level		level;
 	public EntityAI		brain;
 	public EntityState	state;
@@ -31,8 +31,8 @@ public class Entity {
 		name = Character.toUpperCase(n.charAt(0)) + n.substring(1);
 		level.addEntity(this);
 	}
-	public boolean isQueuedForDeath() {
-		return queuedForDeath;
+	public boolean isQueuedForRemoval() {
+		return queuedForRemoval;
 	}
 	@SuppressWarnings("unchecked")
 	public JSONObject toJSON() {
@@ -50,7 +50,7 @@ public class Entity {
 	}
 	public void update(double dt) {
 		if (state.health <= 0) {
-			queuedForDeath = true;
+			queuedForRemoval = true;
 			return;
 		}
 		brain.update(this, dt);
@@ -202,6 +202,6 @@ public class Entity {
 		}
 	}
 	public void remove() {
-		level.removeEntity(this);
+		queuedForRemoval = true;
 	}
 }

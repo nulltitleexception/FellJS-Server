@@ -186,7 +186,7 @@ public class Program extends WebSocketServer {
 			synchronized (server.level) {
 				for (int i = 0; i < server.level.entities.size(); i++) {
 					Entity e = server.level.entities.get(i);
-					if (e.isQueuedForDeath()) {
+					if (e.isQueuedForRemoval()) {
 						server.level.entities.remove(i);
 						i--;
 					} else {
